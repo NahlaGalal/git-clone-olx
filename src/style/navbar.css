@@ -1,0 +1,109 @@
+.main-nav{
+    background-color: #FFF;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.main-nav .container{
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav .container a{
+    color: #000;
+    text-decoration: none
+}
+
+.main-nav .container a.logo{
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.main-nav .container a.logo span{
+    background-color: var(--main-color);
+    color: #FFF;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.main-nav .container >ul{
+    list-style: none;
+    display: flex;
+    flex: 2;
+}
+
+.main-nav .container >ul>li{padding: 0 15px;}
+
+.main-nav .container >ul>li>button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.main-nav .container >ul >li >a{
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.main-nav .container >ul>li>.active{
+    background-color: var(--main-color);
+    color: #FFF;
+}
+
+.main-nav .container ul li div{
+    position: absolute;
+    background-color: #FFF;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+    margin-top: 10px;
+    transition: all 0.4s ease-in-out;
+}
+
+.main-nav .container ul li .hidden{
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.main-nav .container ul li div ul{
+    list-style-type: none;
+    padding: 0;
+}
+
+.main-nav .container ul li div ul li a{
+    display: block;
+    padding: 10px 20px;
+}
+
+.main-nav .container ul li a:hover{
+    background-color: var(--main-color);
+    color: #FFF;
+    transition: all 0.4s ease-in-out;
+}
+
+.main-nav .container label{position: relative;}
+
+.main-nav .container label input{
+    height: 30px;
+    border-radius: 5px;
+    padding: 10px;
+    padding-right: 20px;
+}
+
+.main-nav .container label i{
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    color: #333;
+}
+
+@media screen and (max-width: 992px){
+    .main-nav .container{
+        flex-direction: column;
+    }
+}

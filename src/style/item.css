@@ -1,0 +1,68 @@
+div.item{
+    display: flex;
+    margin-top: 20px;
+}
+
+h1, h2, p, dl{padding-left: 20px;}
+
+main{
+    flex:2;
+    margin-right: 20px;
+    background-color: var(--background-color);
+    margin-bottom: 20px;
+}
+
+main .slider-wrapper img{height: 500px;}
+main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
+main .carousel .thumbs-wrapper{margin: 10px 0;}
+main .thumbs-wrapper img{height: 50px;}
+main .carousel.loaded{width: 100% !important;}
+
+main p{
+    padding: 0 20px;
+    line-height: 1.5em;
+    color: #333;
+}
+
+aside{
+    flex: 1;
+    background-color: var(--background-color);
+    height: max-content;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+aside>p{
+    text-align: center;
+    font-size: 2em;
+    padding: 0;
+}
+
+aside p strong{font-family: sans-serif}
+
+aside button{
+    margin: 0 auto;
+    display: block;
+    border: 1px solid var(--main-color);
+    background-color: transparent;
+    color: var(--main-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+aside button:hover{
+    background-color: var(--main-color);
+    color: var(--background-color);
+    transition: all 0.4s ease-in-out;
+}
+
+aside hr{width: 80%;}
+
+aside dl{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 20px;
+}
+
+aside dt{font-weight: bold;}

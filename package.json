@@ -1,0 +1,29 @@
+{
+  "name": "git-clone-olx",
+  "version": "1.0.0",
+  "description": "db2 project",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "author": "Nahla Galal, Ahmed El-Moselhy, Mostafa El-Gayar",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-img-carousel": "^1.4.1",
+    "react-responsive-carousel": "^3.1.47",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "^2.1.8"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

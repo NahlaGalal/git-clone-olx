@@ -1,0 +1,16 @@
+:root{
+    --main-color: #1875d1;
+    --background-color: #f6f9fc;
+}
+
+body{background: linear-gradient(-45deg, rgba(24, 117, 219, 0.8), rgba(24, 117, 219, 0.29))}
+
+*{
+    outline: none;
+    font-family: Cairo, sans-serif
+}
+
+.container{
+    width: 85%;
+    margin: 0 auto;
+}
