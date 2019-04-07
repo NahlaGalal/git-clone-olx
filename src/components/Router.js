@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Layout from './Layout';
 import Item from './Item';
 import Home from './Home';
-import Login from './Login';
 import Signup from './Signup';
 
 export default class Router extends Component {
@@ -14,7 +13,6 @@ export default class Router extends Component {
                     <Layout>
                         <Route exact path="/" component={Home}/>
                         <Route exact path="/item" component={Item} />
-                        <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
                     </Layout>
                 </Switch>
