@@ -6,12 +6,16 @@ div.item{
 h1, h2, p, dl{padding-left: 20px;}
 
 main{
+    position: relative;
     flex:2;
     margin-right: 20px;
     background-color: var(--background-color);
     margin-bottom: 20px;
 }
 
+div.item button{display: none}
+main h1{font-weight: 600;}
+main div p, main div hr{display: none}
 main .slider-wrapper img{height: 500px;}
 main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
 main .carousel .thumbs-wrapper{margin: 10px 0;}
@@ -66,3 +70,52 @@ aside dl{
 }
 
 aside dt{font-weight: bold;}
+
+@media screen and (max-width: 1000px){
+    div.item{flex-direction: column}
+    main, aside{width: 100%;}
+    main{margin-bottom: 0}
+    aside p, aside button{display: none}
+
+    aside{
+        box-shadow: none;
+        margin-bottom: 20px;
+    }
+
+    main .info{
+        z-index: 1;
+        position: absolute;
+        background-color: rgba(153, 153, 153, 0.7);
+        width: 100%;
+    }
+
+    main .info *{color: #FFF}
+    main .info h1{margin-left: 10px}
+
+    main .info p{
+        display: block;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    main .info p strong{font-family: sans-serif;}
+
+    main .info hr{
+        border-color: rgba(255, 255, 255, 0.25);
+        margin: 0 20px;
+        display: block;
+    }
+
+    div.item > button{
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 85%;
+        background-color: #FFF;
+        color: var(--main-color);
+        font-size: 20px;
+        font-weight: 600;
+        border: none;
+        height:30px;
+    }
+}

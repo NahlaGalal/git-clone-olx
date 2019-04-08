@@ -10,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .main-nav .container a{
@@ -32,6 +33,8 @@
     text-align: center;
 }
 
+.main-nav .container .responsive button{display: none}
+
 .main-nav .container >ul{
     list-style: none;
     display: flex;
@@ -45,6 +48,8 @@
     border: none;
     cursor: pointer;
 }
+
+.main-nav .container >ul>li>button::after{content: '\25BE';}
 
 .main-nav .container >ul >li >a{
     padding: 5px 10px;
@@ -62,6 +67,7 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
     margin-top: 10px;
     transition: all 0.4s ease-in-out;
+    z-index: 1;
 }
 
 .main-nav .container ul li .hidden{
@@ -95,15 +101,92 @@
     padding-right: 20px;
 }
 
-.main-nav .container label i{
+.main-nav .container label svg{
     position: absolute;
     right: 10px;
     top: 6px;
     color: #333;
 }
 
-@media screen and (max-width: 992px){
+@media screen and (max-width: 1192px) and (min-width: 1066px){
+    .main-nav .container >ul>li{padding: 0 5px}
+}
+
+@media screen and (max-width: 1065px) and (min-width: 651px){
     .main-nav .container{
-        flex-direction: column;
+        flex-wrap: wrap;
+        padding-top: 20px;
     }
+
+    .main-nav .container label{order: 2}
+    .main-nav .container ul{
+        order: 3;
+        justify-self: center;
+    }
+}
+
+@media screen and (max-width: 650px){
+    .main-nav .container{display: block}
+
+    .main-nav .container .responsive{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100px;
+        align-items: center;
+    }
+
+    .main-nav .container .responsive button{
+        background-color: var(--main-color);
+        display: block;
+        border: none;
+        cursor: pointer;
+    }
+
+    .main-nav .container p{
+        border-top: 3px solid #fff;
+        width: 30px;
+        height: 1px;
+        margin: 5px 0;
+        padding: 0;
+    }
+
+    .main-nav .container .hidden{display: none}
+    .main-nav .container  label{display: none}
+
+    .main-nav .container >ul{
+        background-color: rgba(0, 0, 0, 0.5);
+        display: block;
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        top: 0;
+        margin: 0;
+        top: 70px;
+    }
+
+    .main-nav .container >ul>li{padding: 0}
+
+    .main-nav .container >ul >li >a{
+        width: calc(100% - 24px);
+        height: 100%;
+        display: inline-block;
+        border-radius: 0;
+        padding: 12px;
+    }
+
+    .main-nav .container ul li button{padding: 10px;}
+    .main-nav .container ul li.categories{position: relative;}
+    .main-nav .container ul li button:after{content: '\25B8'}
+
+    .main-nav .container ul li div{
+        width: calc(100% - 120px);
+        background-color: rgba(0, 0, 0, 0.25);
+        left: 120px;
+        top: 0;
+    }
+
+    .main-nav .container ul li div a{color: #FFF;}
+
+    .main-nav .container >ul >li >a, .main-nav .container ul li button{color: #FFF;}
 }

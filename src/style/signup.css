@@ -49,8 +49,6 @@ form input::placeholder{font-size: 14px;}
 form label span{color: red;}
 form label{font-size: 20px;}
 
-
-
 form input[type="submit"]{
     background-color: var(--main-color);
     color: #FFF;
@@ -80,4 +78,14 @@ form div p{
 form div p.pass-ccs{
     display: block;
     color: #333;
+}
+
+@media screen and (max-width: 890px){
+    form .form-group{flex-direction: column;}
+    form .form-group div{width: 100%}
+}
+
+@media screen and (max-width: 745px){
+    form{width: 80%}
+    form h1{font-size: 32px;}
 }

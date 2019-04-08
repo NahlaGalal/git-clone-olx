@@ -10,7 +10,11 @@ export default class Item extends Component {
         return (
             <div className="container item">
                 <main>
-                    <h1> Laptop Dell - inspiron n4050 </h1>
+                    <div className="info">
+                        <h1> Laptop Dell - inspiron n4050 </h1>
+                        <hr />
+                        <p className="price"> <strong> 7,800 LE. </strong> </p>
+                    </div>
                     <Carousel showStatus={false} autoPlay={true} infiniteLoop={true}>
                         <div><img src={require('../Images/lab1.jpg')} alt="First for product"/></div>
                         <div><img src={require('../Images/lab2.jpg')} alt="Second for product"/></div>
@@ -45,8 +49,11 @@ export default class Item extends Component {
                         <dd>01001112345</dd>
                         <dt>E-mail</dt>
                         <dd><a href="mailto:nahlaglal@gmail.com">nahlaglal@gmail.com</a></dd>
+                        <dt>City</dt>
+                        <dd>Mansoura</dd>
                     </dl>
                 </aside>
+                <button>Buy Now</button>
             </div>
         )
     }
