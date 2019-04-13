@@ -45,7 +45,7 @@ export default class Signup extends Component {
 
     render() {              
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className="signup">
                 <h1>Create your account</h1>
                 <CheckValidity unvalid={this.state.unvalid} />
                 <div className="form-group">

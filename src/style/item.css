@@ -3,9 +3,9 @@ div.item{
     margin-top: 20px;
 }
 
-h1, h2, p, dl{padding-left: 20px;}
+div.item h1, h2, p, dl{padding-left: 20px;}
 
-main{
+div.item main{
     position: relative;
     flex:2;
     margin-right: 20px;
@@ -14,36 +14,36 @@ main{
 }
 
 div.item button{display: none}
-main h1{font-weight: 600;}
-main div p, main div hr{display: none}
-main .slider-wrapper img{height: 500px;}
-main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
-main .carousel .thumbs-wrapper{margin: 10px 0;}
-main .thumbs-wrapper img{height: 50px;}
-main .carousel.loaded{width: 100% !important;}
+div.item main h1{font-weight: 600;}
+div.item main div p, main div hr{display: none}
+div.item main .slider-wrapper img{height: 500px;}
+div.item main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
+div.item main .carousel .thumbs-wrapper{margin: 10px 0;}
+div.item main .thumbs-wrapper img{height: 50px;}
+div.item main .carousel.loaded{width: 100% !important;}
 
-main p{
+div.item main p{
     padding: 0 20px;
     line-height: 1.5em;
     color: #333;
 }
 
-aside{
+div.item aside{
     flex: 1;
     background-color: var(--background-color);
     height: max-content;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
-aside>p{
+div.item aside>p{
     text-align: center;
     font-size: 2em;
     padding: 0;
 }
 
-aside p strong{font-family: sans-serif}
+div.item aside p strong{font-family: sans-serif}
 
-aside button{
+div.item aside button{
     margin: 0 auto;
     display: block;
     border: 1px solid var(--main-color);
@@ -55,52 +55,52 @@ aside button{
     transition: all 0.4s ease-in-out;
 }
 
-aside button:hover{
+div.item aside button:hover{
     background-color: var(--main-color);
     color: var(--background-color);
     transition: all 0.4s ease-in-out;
 }
 
-aside hr{width: 80%;}
+div.item aside hr{width: 80%;}
 
-aside dl{
+div.item aside dl{
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 20px;
 }
 
-aside dt{font-weight: bold;}
+div.item aside dt{font-weight: bold;}
 
 @media screen and (max-width: 1000px){
     div.item{flex-direction: column}
-    main, aside{width: 100%;}
-    main{margin-bottom: 0}
-    aside p, aside button{display: none}
+    div.item main, aside{width: 100%;}
+    div.item main{margin-bottom: 0}
+    div.item aside p, aside button{display: none}
 
-    aside{
+    div.item aside{
         box-shadow: none;
         margin-bottom: 20px;
     }
 
-    main .info{
+    div.item main .info{
         z-index: 1;
         position: absolute;
         background-color: rgba(153, 153, 153, 0.7);
         width: 100%;
     }
 
-    main .info *{color: #FFF}
-    main .info h1{margin-left: 10px}
+    div.item main .info *{color: #FFF}
+    div.item main .info h1{margin-left: 10px}
 
-    main .info p{
+    div.item main .info p{
         display: block;
         font-size: 20px;
         margin-left: 10px;
     }
 
-    main .info p strong{font-family: sans-serif;}
+    div.item main .info p strong{font-family: sans-serif;}
 
-    main .info hr{
+    div.item main .info hr{
         border-color: rgba(255, 255, 255, 0.25);
         margin: 0 20px;
         display: block;
