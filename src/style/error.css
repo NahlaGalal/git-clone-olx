@@ -1,0 +1,23 @@
+.error{
+    background: url('../Images/Unplugged.png') center/cover no-repeat;
+    height: calc(100vh - 100px);
+}
+
+.error h1{
+    margin: 0;
+    font-size: 5em;
+    margin-left: 50px;
+    padding-top: 30px;
+    color: #FFF;
+}
+
+.error p{
+    color: #FFF;
+    padding: 0;
+    margin-left: 50px;
+    font-size: 1.3em;
+}
+
+@media screen and (max-width: 1065px) and (min-width: 651px){
+    .error{height: calc(100vh - 120px);}
+}

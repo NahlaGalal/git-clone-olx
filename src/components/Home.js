@@ -25,7 +25,7 @@ export default class Home extends Component {
                     </nav>
 
                     <section className="card">
-                        <img src={image} />
+                        <img src={image} alt="image1"/>
                         <div className="description">
                             <h2>Laptop Dell inspiron n-4050</h2>
                             <p>7800 LE.</p>
@@ -34,7 +34,7 @@ export default class Home extends Component {
                         </div>
                     </section>
                     <section className="card">
-                        <img src={image} />
+                        <img src={image} alt="image2"/>
                         <div className="description">
                             <h2>Laptop Dell inspiron n-4050</h2>
                             <p>7800 LE.</p>
@@ -43,7 +43,7 @@ export default class Home extends Component {
                         </div>
                     </section>
                     <section className="card">
-                        <img src={image} />
+                        <img src={image} alt="image3"/>
                         <div className="description">
                             <h2>Laptop Dell inspiron n-4050</h2>
                             <p>7800 LE.</p>
@@ -52,7 +52,7 @@ export default class Home extends Component {
                         </div>
                     </section>
                     <section className="card">
-                        <img src={image} />
+                        <img src={image} alt="image4"/>
                         <div className="description">
                             <h2>Laptop Dell inspiron n-4050</h2>
                             <p>7800 LE.</p>
