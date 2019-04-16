@@ -1,5 +1,5 @@
 *.txt
 node_modules/*
-*.png
-!src/*.png
+/*.png
+
 *.fig
