@@ -5,6 +5,7 @@ import Item from './Item';
 import Home from './Home';
 import Signup from './Signup';
 import Error from './Error';
+import AddItem from './AddItem';
 
 export default class Router extends Component {
     render() {
@@ -16,6 +17,7 @@ export default class Router extends Component {
                             <Route exact path="/" component={Home} />
                             <Route exact path="/item" component={Item} />
                             <Route exact path="/signup" component={Signup} />
+                            <Route exact path="/addItem" component={AddItem} />
                             <Route exact path="/error" component={Error} />
                             <Redirect to="/error" />
                         </Switch>

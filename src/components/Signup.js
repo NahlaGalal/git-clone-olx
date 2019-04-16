@@ -26,11 +26,6 @@ export default class Signup extends Component {
 
     changeInput = e => this.setState({[e.target.name]: e.target.value})
 
-    handleBlur = e => {
-        if(e.target.value === '') e.target.nextElementSibling.style.display = "block";
-        else e.target.nextElementSibling.style.display = "none";
-    }
-
     handleSubmit = e => {
         e.preventDefault();
         let validity = true;
@@ -39,8 +34,10 @@ export default class Signup extends Component {
         })
         if(!validity) this.setState({unvalid: 'missing'});
         else if(this.state.Password !== this.state.RePassword) this.setState({unvalid: 'pass'});
-        else this.setState({unvalid: 'valid'});
-        this.props.location.pathName = '/';
+        else{
+            this.setState({unvalid: 'valid'});
+            this.props.history.push('/');
+        }
     }
 
     render() {              
@@ -54,14 +51,12 @@ export default class Signup extends Component {
                             type="text"
                             text="Enter your full name"
                             icon="user"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput}/>
                     <Input name="User"
                             label="User Name"
                             type="text"
                             text="Enter your user name"
                             icon="user"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                 </div>
                 <div>
@@ -70,7 +65,6 @@ export default class Signup extends Component {
                             type="email"
                             text="Enter your e-mail"
                             icon="envelope"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                 </div>
                 <div className="form-group">
@@ -79,14 +73,12 @@ export default class Signup extends Component {
                             type="password"
                             text="Enter your password"
                             icon="key"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                     <Input name="RePassword"
                             label="Confirm Password"
                             type="password"
                             text="Re-enter your password"
                             icon="key"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                 </div>
                 <div>
@@ -95,7 +87,6 @@ export default class Signup extends Component {
                             type="text"
                             text="Enter your phone number"
                             icon="phone"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                 </div>
                 <div>
@@ -104,7 +95,6 @@ export default class Signup extends Component {
                             type="text"
                             text="Enter your country"
                             icon="location-arrow"
-                            handleBlur={this.handleBlur}
                             changeInput={this.changeInput} />
                 </div>
                 <input type="submit" value="Sign up"/>
