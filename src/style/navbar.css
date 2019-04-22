@@ -6,7 +6,7 @@
 }
 
 .main-nav .container{
-    height: 100px;
+    height: 65px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -181,7 +181,7 @@
 
     .main-nav .container ul li div{
         width: calc(100% - 120px);
-        background-color: rgba(0, 0, 0, 0.25);
+        background-color: rgba(0, 0, 0, 0.5);
         left: 120px;
         top: 0;
     }

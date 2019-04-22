@@ -2,6 +2,7 @@
     background-color: var(--background-color);
     display: flex;
     margin: 20px auto !important;
+    border-radius: 25px;
 }
 
 main{flex: 2;}
@@ -31,12 +32,15 @@ main nav ul li a{
 main .card{
     display: flex;
     background-color: rgba(24, 117, 209, 0.15);
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    margin-left: 5px;
 }
 
 main .card img{
     max-width: 170px;
     height:160px;
+    margin: 10px;
 }
 
 main .card div{width: 100%;}

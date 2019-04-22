@@ -15,6 +15,7 @@ export default class Router extends Component {
                     <Layout>
                         <Switch>
                             <Route exact path="/" component={Home} />
+                            <Route exact path="/home" component={Home} />
                             <Route exact path="/item" component={Item} />
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/addItem" component={AddItem} />

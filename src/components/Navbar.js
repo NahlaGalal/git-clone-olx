@@ -23,7 +23,7 @@ export default class Navbar extends Component {
                         <button onClick={this.displayNav}><p></p><p></p><p></p></button>
                     </div>
                     <ul className="hidden">
-                        <li><NavLink to='/'> Home </NavLink></li>
+                        <li><NavLink to='/home'> Home </NavLink></li>
                         <li className="categories">
                             <button onClick={this.handleClick}>Categories </button>
                             <div className="hidden">
@@ -35,9 +35,10 @@ export default class Navbar extends Component {
                                 </ul>
                             </div>
                         </li>
-                        <li><NavLink to="/about"> About </NavLink></li>
                         <li><NavLink to="/addItem">Add Item</NavLink></li>
                         <li><NavLink to="/signup"> Sign up </NavLink></li>
+                        <li><NavLink to="/about"> About </NavLink></li>
+                        <li><NavLink to="/logout"> Log out </NavLink></li>
                     </ul>
                     <label>
                         <input type="search" name="Search-item" placeholder="Search" onChange={this.handleChange}/>

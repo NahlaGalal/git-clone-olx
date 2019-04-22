@@ -22,7 +22,7 @@ export default class Item extends Component {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?` ,
             buyer: {
-                name: 'Nahla5',
+                name: 'Nahla Galal',
                 phone: '01001112345',
                 email: 'nahlaglal@gmail.com',
                 city: 'Mansoura'
@@ -62,12 +62,12 @@ export default class Item extends Component {
                     </dl>
                     <h2> Buyer Information </h2>
                     <dl>
-                        <dt>User Name</dt>
+                        <dt>Name</dt>
                         <dd>{this.state.buyer.name}</dd>
-                        <dt>Phone</dt>
+                        {/* <dt>Phone</dt>
                         <dd>{this.state.buyer.phone}</dd>
                         <dt>E-mail</dt>
-                        <dd><a href={`mailto:${this.state.buyer.email}`}>{this.state.buyer.email}</a></dd>
+                        <dd><a href={`mailto:${this.state.buyer.email}`}>{this.state.buyer.email}</a></dd> */}
                         <dt>City</dt>
                         <dd>{this.state.buyer.city}</dd>
                     </dl>

@@ -11,6 +11,8 @@ div.item main{
     margin-right: 20px;
     background-color: var(--background-color);
     margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
 div.item button{display: none}
@@ -33,6 +35,7 @@ div.item aside{
     background-color: var(--background-color);
     height: max-content;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
 }
 
 div.item aside>p{

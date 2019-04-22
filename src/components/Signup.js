@@ -19,7 +19,7 @@ export default class Signup extends Component {
             Password: '',
             RePassword: '',
             Phone: '',
-            Country: '',
+            City: '',
             unvalid: 'valid'
         }
     }
@@ -90,10 +90,10 @@ export default class Signup extends Component {
                             changeInput={this.changeInput} />
                 </div>
                 <div>
-                    <Input name="Country"
-                            label="Country"
+                    <Input name="City"
+                            label="City"
                             type="text"
-                            text="Enter your country"
+                            text="Enter your city"
                             icon="location-arrow"
                             changeInput={this.changeInput} />
                 </div>
