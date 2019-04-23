@@ -38,7 +38,7 @@ export default class Navbar extends Component {
                         <li><NavLink to="/addItem">Add Item</NavLink></li>
                         <li><NavLink to="/signup"> Sign up </NavLink></li>
                         <li><NavLink to="/about"> About </NavLink></li>
-                        <li><NavLink to="/logout"> Log out </NavLink></li>
+                        {/* <li><NavLink to="/logout"> Log out </NavLink></li> */}
                     </ul>
                     <label>
                         <input type="search" name="Search-item" placeholder="Search" onChange={this.handleChange}/>

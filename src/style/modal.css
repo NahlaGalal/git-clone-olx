@@ -20,6 +20,24 @@
     text-align: center;
 }
 
+.modal label{
+    display: block;
+    text-align: center
+}
+
+.modal input{
+    margin: 20px auto 0;
+    display: block;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid #333333;
+    padding: 5px;
+    width: 70%;
+}
+
+.modal dt{font-weight: 700;}
+.modal .copy-text{padding: 0}
+
 .modal .modal-buttons{
     margin: 0 auto;
     width: max-content;

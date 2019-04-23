@@ -1,7 +1,6 @@
 form.signup{
     width: 50%;
     margin: 20px auto;
-    /* background-color: var(--background-color); */
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50px;
     padding: 20px;
@@ -29,7 +28,7 @@ form .form-group{
     justify-content: space-between;
 }
 
-form input{
+form input, form select{
     width: calc(100% - 20px);
     height: 35px;
     margin-top: 10px;
@@ -40,7 +39,15 @@ form input{
     border-radius: 10px;
 }
 
-form input:focus{
+form select{
+    height: 55px;
+    width: 100%;
+    -webkit-appearance: none;
+}
+
+form select::-ms-expand{appearance: none;}
+
+form input:focus, form select:focus{
     border-bottom: 1px solid var(--main-color);
     transition: all 0.4s ease-in-out;
 }

@@ -99,6 +99,14 @@
     border-radius: 5px;
     padding: 10px;
     padding-right: 20px;
+    width: 0;
+    z-index: 5;
+    transition: all 0.4s ease-in-out;
+}
+
+.main-nav .container label input:hover{
+    width: 100%;
+    transition: all 0.4s ease-in-out;
 }
 
 .main-nav .container label svg{
@@ -108,31 +116,32 @@
     color: #333;
 }
 
-@media screen and (max-width: 1192px) and (min-width: 1066px){
-    .main-nav .container >ul>li{padding: 0 5px}
-}
+@media screen and (max-width: 1192px) and (min-width: 1066px){.main-nav .container >ul>li{padding: 0 5px}}
 
-@media screen and (max-width: 1065px) and (min-width: 651px){
+@media screen and (max-width: 1065px) and (min-width: 827px){
     .main-nav .container{
         flex-wrap: wrap;
-        padding-top: 20px;
+        height: 90px;
     }
 
     .main-nav .container label{order: 2}
+    .main-nav .container label input{width: 100%}
+
     .main-nav .container ul{
+        margin: 16px 20px;
         order: 3;
         justify-self: center;
-    }
+    } 
 }
 
-@media screen and (max-width: 650px){
-    .main-nav .container{display: block}
+@media screen and (max-width: 826px){
+    .main-nav .container{display: block;}
 
     .main-nav .container .responsive{
         display: flex;
         justify-content: space-between;
         width: 100%;
-        height: 100px;
+        height: 70px;
         align-items: center;
     }
 
