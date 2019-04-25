@@ -36,7 +36,8 @@ export default class Navbar extends Component {
                             </div>
                         </li>
                         <li><NavLink to="/addItem">Add Item</NavLink></li>
-                        <li><NavLink to="/signup"> Sign up </NavLink></li>
+                        {/* <li><NavLink to="/signup"> Sign up </NavLink></li> */}
+                        <li><NavLink to="/profile"> Profile </NavLink></li>
                         <li><NavLink to="/about"> About </NavLink></li>
                         {/* <li><NavLink to="/logout"> Log out </NavLink></li> */}
                     </ul>
