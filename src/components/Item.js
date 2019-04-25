@@ -1,37 +1,49 @@
 import React, { Component } from "react";
-import { Carousel } from "react-responsive-carousel";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../style/item.css";
 import Modal from "./modal";
+import firebase from "../firebase";
 
 export default class Item extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Laptop Dell - inspiron n4050",
-      price: 7800,
-      images: [
-        "../Images/lab1.jpg",
-        "../Images/lab2.jpg",
-        "../Images/lab3.jpeg"
-      ],
-      description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?`,
+      Name: "",
+      Price: null,
+      Image: '',
+      Description: "",
       buyer: {
-        name: "Nahla Galal",
-        phone: "01001112345",
-        email: "nahlaglal@gmail.com",
-        city: "Mansoura"
+        Name: "",
+        Phone: "",
+        Mail: "",
+        City: ""
       },
       modalIsOpen: false,
       copied: false
     };
+  }
+
+  componentDidMount() {
+    firebase
+      .firestore()
+      .collection("Items")
+      .doc(this.props.match.params.id)
+      .get()
+      .then(doc => {
+        const { Name: itemName, Price, Image, Description, userId } = doc.data();
+        firebase
+          .firestore()
+          .collection("Users")
+          .doc(userId)
+          .get()
+          .then(doc2 => {
+            const { Name, Phone, Mail, City } = doc2.data();
+            const buyer = { Name, Phone, Mail, City };
+            this.setState({ Name: itemName, Price, Image, Description, buyer });
+          });
+      });
   }
 
   openModal = () => this.setState({ modalIsOpen: true });
@@ -44,14 +56,14 @@ export default class Item extends Component {
         <dl>
           <dt>Phone: </dt>
           <CopyToClipboard
-            text={this.state.buyer.phone}
+            text={this.state.buyer.Phone}
             onCopy={() => this.setState({ copied: true })}
           >
-            <dd>{this.state.buyer.phone}</dd>
+            <dd>{this.state.buyer.Phone}</dd>
           </CopyToClipboard>
           <dt>Mail: </dt>
           <dd>
-            <a href="mailto:nahlaglal@gmail.com">{this.state.buyer.email}</a>
+            <a href="mailto:nahlaglal@gmail.com">{this.state.buyer.Mail}</a>
           </dd>
         </dl>
         {this.state.copied ? (
@@ -67,40 +79,24 @@ export default class Item extends Component {
         <div className="container item">
           <main>
             <div className="info">
-              <h1> {this.state.name} </h1>
+              <h1> {this.state.Name} </h1>
               <hr />
               <p className="price">
                 {" "}
-                <strong> {this.state.price} LE. </strong>{" "}
+                <strong> {this.state.Price} LE. </strong>{" "}
               </p>
             </div>
-            <Carousel showStatus={false} autoPlay={true} infiniteLoop={true}>
-              <div>
                 <img
-                  src={require("../Images/lab1.jpg")}
+                  src={this.state.Image}
                   alt="First for product"
                 />
-              </div>
-              <div>
-                <img
-                  src={require("../Images/lab2.jpg")}
-                  alt="First for product"
-                />
-              </div>
-              <div>
-                <img
-                  src={require("../Images/lab3.jpeg")}
-                  alt="First for product"
-                />
-              </div>
-            </Carousel>
             <h2> Description </h2>
-            <p> {this.state.description} </p>
+            <p> {this.state.Description} </p>
           </main>
           <aside>
             <p>
               {" "}
-              <strong> {this.state.price} LE. </strong>{" "}
+              <strong> {this.state.Price} LE. </strong>{" "}
             </p>
             <button onClick={this.openModal}>Buy now</button>
             <hr />
@@ -116,9 +112,9 @@ export default class Item extends Component {
             <h2> Buyer Information </h2>
             <dl>
               <dt>Name</dt>
-              <dd>{this.state.buyer.name}</dd>
+              <dd>{this.state.buyer.Name}</dd>
               <dt>City</dt>
-              <dd>{this.state.buyer.city}</dd>
+              <dd>{this.state.buyer.City}</dd>
             </dl>
           </aside>
           <button onClick={this.openModal}>Buy Now</button>

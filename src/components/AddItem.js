@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import Input from "./Input";
+import firebase from '../firebase';
 
 import "../style/additem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "./modal";
-
-function CheckValidity(props) {
-  if (props.unvalid === "missing") return <p>Missing Data</p>;
-  else return <p />;
-}
 
 export default class AddItem extends Component {
   constructor(props) {
@@ -54,21 +50,34 @@ export default class AddItem extends Component {
         validity = false;
     });
     if (!validity) this.setState({ unvalid: "missing" });
-    else this.setState({ unvalid: "valid", modalIsOpen: true });
+    else this.addToFirebase();
   };
+
+  addToFirebase = () => {
+    console.log("Adding");
+    const {Category, Name, Price, Quantity, Image, Description} = this.state;
+    firebase.firestore().collection("Items").add({
+      Category, Name, Price, Quantity, Image, Description, userId: this.props.match.params.id
+    }).then(docref => {
+      console.log("Finished")
+      this.setState({ unvalid: "valid", modalIsOpen: true });
+      this.props.history.push('/item/' + docref.id)
+    })
+  }
 
   hideModal = () => this.setState({ modalIsOpen: false });
   addItem = () => this.props.history.push("/");
 
   render() {
     let modalText = (<p>Are you sure you want to add this item?</p>)
+    let signupText = (<p>You must sign up first before adding an item</p>)
 
     return (
+      localStorage.getItem("userId") ? (
       <React.Fragment>
         <form onSubmit={this.handleSubmit} className="add-item">
           <h1>Hello, Nahla Galal</h1>
           <h2>Add your item now </h2>
-          <CheckValidity unvalid={this.state.unvalid} />
           <label>
             <select
               defaultValue=""
@@ -139,7 +148,14 @@ export default class AddItem extends Component {
           header="Assurance"
           text={modalText}
         />
-      </React.Fragment>
+      </React.Fragment>) : (
+        <Modal
+          isOpen="true"
+          hideModal={() => this.props.history.push("/signup")}
+          header="Sign up first"
+          text={signupText}
+          />
+      )
     );
   }
 }

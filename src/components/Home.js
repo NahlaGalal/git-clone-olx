@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Input from "./Input";
+import firebase from "../firebase";
 
 import "../style/home.css";
 import image from "../Images/lab1.jpg";
@@ -13,21 +14,18 @@ export default class Home extends Component {
     this.state = {
       User: "",
       Password: "",
-      modalIsOpen: false
+      modalIsOpen: false,
+      modalHeader: "",
+      modalText: ""
     };
+    this.ref = firebase.firestore().collection("Users");
   }
 
   changeInput = e => this.setState({ [e.target.name]: e.target.value });
-	hideModal = () => {this.setState({modalIsOpen: false})}
-	forgetPassword = () => {this.setState({modalIsOpen: true})}
-
-	sendMail = () => {}
-
-  handleSubmit = e => {
-		e.preventDefault();
-	};
-
-  render() {
+  hideModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+  forgetPassword = () => {
     let modalText = (
       <div>
         <label htmlFor="mail">Enter your e-mail address</label>
@@ -38,8 +36,35 @@ export default class Home extends Component {
           placeholder="Enter your email"
         />
       </div>
-    )
+    );
+    this.setState({ modalIsOpen: true, modalHeader: "Assurance", modalText });
+  };
 
+  sendMail = () => {};
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.ref.onSnapshot(querySnapshot => {
+      const data = querySnapshot.docs.filter(
+        doc =>
+          doc.data().User === this.state.User &&
+          doc.data().Password === this.state.Password
+      );
+      if (data[0]) {
+        localStorage.setItem("userId", data[0].id);
+        this.props.history.push("/profile/" + data[0].id);
+      } else {
+        const errorLogin = <p>User name or password is wrong</p>;
+        this.setState({
+          modalIsOpen: true,
+          modalHeader: "Error",
+          modalText: errorLogin
+        });
+      }
+    });
+  };
+
+  render() {
     return (
       <React.Fragment>
         <div className="home container">
@@ -114,6 +139,7 @@ export default class Home extends Component {
               </div>
             </section>
           </main>
+          {!localStorage.getItem("userId") ? 
           <aside>
             <form onSubmit={this.handleSubmit}>
               <h1>Join Us Now</h1>
@@ -143,15 +169,16 @@ export default class Home extends Component {
               </div>
               <input type="submit" value="Login" />
             </form>
-          </aside>
+          </aside> : ''
+          }
         </div>
-				<Modal 
-				isOpen={this.state.modalIsOpen}
-        header="Assurance"
-        text={modalText}
-				OkButton={this.sendMail}
-				hideModal={this.hideModal}
-				/>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          header={this.state.modalHeader}
+          text={this.state.modalText}
+          OkButton={this.sendMail}
+          hideModal={this.hideModal}
+        />
       </React.Fragment>
     );
   }
