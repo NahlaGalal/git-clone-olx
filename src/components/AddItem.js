@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Input from "./Input";
-import firebase from '../firebase';
+import firebase from "../firebase";
 
 import "../style/additem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ export default class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      User: "",
       Category: "",
       Name: "",
       Price: "",
@@ -20,6 +21,17 @@ export default class AddItem extends Component {
       unvalid: "valid",
       modalIsOpen: false
     };
+  }
+
+  componentDidMount() {
+    firebase
+      .firestore()
+      .collection("Users")
+      .doc(this.props.match.params.id)
+      .get()
+      .then(doc => {
+        this.setState({ User: doc.data().Name });
+      });
   }
 
   changeInput = e => this.setState({ [e.target.name]: e.target.value });
@@ -55,28 +67,39 @@ export default class AddItem extends Component {
 
   addToFirebase = () => {
     console.log("Adding");
-    const {Category, Name, Price, Quantity, Image, Description} = this.state;
-    firebase.firestore().collection("Items").add({
-      Category, Name, Price, Quantity, Image, Description, userId: this.props.match.params.id
-    }).then(docref => {
-      console.log("Finished")
-      this.setState({ unvalid: "valid", modalIsOpen: true });
-      this.props.history.push('/item/' + docref.id)
-    })
-  }
+    const { Category, Name, Price, Quantity, Image, Description } = this.state;
+    // Add to items
+    firebase
+      .firestore()
+      .collection("Items")
+      .add({
+        Category,
+        Name,
+        Price,
+        Quantity,
+        Image,
+        Description,
+        userId: this.props.match.params.id
+      })
+      .then(docref => {
+        console.log("Finished");
+        this.setState({ unvalid: "valid", modalIsOpen: true });
+        this.props.history.push("/item/" + docref.id);
+      })
+      .catch(error => console.log(error));
+  };
 
   hideModal = () => this.setState({ modalIsOpen: false });
   addItem = () => this.props.history.push("/");
 
   render() {
-    let modalText = (<p>Are you sure you want to add this item?</p>)
-    let signupText = (<p>You must sign up first before adding an item</p>)
+    let modalText = <p>Are you sure you want to add this item?</p>;
+    let signupText = <p>You must sign up first before adding an item</p>;
 
-    return (
-      localStorage.getItem("userId") ? (
+    return localStorage.getItem("userId") ? (
       <React.Fragment>
         <form onSubmit={this.handleSubmit} className="add-item">
-          <h1>Hello, Nahla Galal</h1>
+          <h1>Hello, {this.state.User}</h1>
           <h2>Add your item now </h2>
           <label>
             <select
@@ -148,14 +171,14 @@ export default class AddItem extends Component {
           header="Assurance"
           text={modalText}
         />
-      </React.Fragment>) : (
-        <Modal
-          isOpen="true"
-          hideModal={() => this.props.history.push("/signup")}
-          header="Sign up first"
-          text={signupText}
-          />
-      )
+      </React.Fragment>
+    ) : (
+      <Modal
+        isOpen="true"
+        hideModal={() => this.props.history.push("/signup")}
+        header="Sign up first"
+        text={signupText}
+      />
     );
   }
 }

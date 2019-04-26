@@ -17,12 +17,11 @@ export default class Profile extends Component {
     firebase
       .firestore()
       .collection("Items")
-      .onSnapshot(querySnapshot => {
-        const userItems = querySnapshot.docs.filter(
-          doc => doc.data().userId === this.props.match.params.id
-        );
-        userItems.map(item => console.log(item.data()));
-      });
+      .where("userId", "==", this.props.match.params.id)
+      .get()
+      .then(doc => {
+        doc.docs.map(item => console.log(item.data()))
+      })
   }
 
   render() {

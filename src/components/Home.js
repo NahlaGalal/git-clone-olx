@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "./Input";
 import firebase from "../firebase";
 
 import "../style/home.css";
-import image from "../Images/lab1.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "./modal";
 
@@ -14,17 +13,59 @@ export default class Home extends Component {
     this.state = {
       User: "",
       Password: "",
+      Category: "All",
+      Items: [],
       modalIsOpen: false,
       modalHeader: "",
       modalText: ""
     };
     this.ref = firebase.firestore().collection("Users");
+    this.city = "";
   }
 
-  changeInput = e => this.setState({ [e.target.name]: e.target.value });
-  hideModal = () => {
-    this.setState({ modalIsOpen: false });
+  componentDidMount() {
+    this.getItems();
+  }
+
+  getItems = () => {
+    firebase
+      .firestore()
+      .collection("Items")
+      .get()
+      .then(doc => {
+        const Items = [];
+        doc.docs
+          .filter(
+            Items =>
+              Items.data().Category === this.state.Category.toLowerCase() ||
+              this.state.Category === "All"
+          )
+          .map(item => {
+            this.getLocation(item.data().userId).then(userCity => {
+              const obj = { ...item.data(), itemId: item.id, userCity };
+              Items.push(obj);
+              this.setState({ Items });
+            });
+          });
+      });
+    this.setState({ Items: [] });
   };
+
+  getLocation = userId =>
+    firebase
+      .firestore()
+      .collection("Users")
+      .doc(userId)
+      .get()
+      .then(user => user.data().City);
+
+  changeCategory = e => {
+    this.setState({ Category: e.target.textContent }, () => this.getItems());
+  };
+
+  changeInput = e => this.setState({ [e.target.name]: e.target.value });
+  hideModal = () => this.setState({ modalIsOpen: false });
+
   forgetPassword = () => {
     let modalText = (
       <div>
@@ -44,24 +85,23 @@ export default class Home extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.ref.onSnapshot(querySnapshot => {
-      const data = querySnapshot.docs.filter(
-        doc =>
-          doc.data().User === this.state.User &&
-          doc.data().Password === this.state.Password
-      );
-      if (data[0]) {
-        localStorage.setItem("userId", data[0].id);
-        this.props.history.push("/profile/" + data[0].id);
-      } else {
-        const errorLogin = <p>User name or password is wrong</p>;
-        this.setState({
-          modalIsOpen: true,
-          modalHeader: "Error",
-          modalText: errorLogin
-        });
-      }
-    });
+    this.ref
+      .where("User", "==", this.state.User)
+      .where("Password", "==", this.state.Password)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          const errorLogin = <p>User name or password is wrong</p>;
+          this.setState({
+            modalIsOpen: true,
+            modalHeader: "Error",
+            modalText: errorLogin
+          });
+        } else {
+          localStorage.setItem("userId", doc.docs[0].id);
+          this.props.history.push("/profile/" + doc.docs[0].id);
+        }
+      });
   };
 
   render() {
@@ -72,105 +112,70 @@ export default class Home extends Component {
             <nav>
               <ul>
                 <li>
-                  {" "}
-                  <NavLink to="/">All</NavLink>{" "}
+                  <button onClick={this.changeCategory}>All</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Books</NavLink>{" "}
+                  <button onClick={this.changeCategory}>Books</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Electronics</NavLink>{" "}
+                  <button onClick={this.changeCategory}>Electronics</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Furniture</NavLink>{" "}
+                  <button onClick={this.changeCategory}>Furniture</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Cars</NavLink>{" "}
+                  <button onClick={this.changeCategory}>Cars</button>
                 </li>
               </ul>
             </nav>
-
-            <section className="card">
-              <img src={image} alt="image1" />
-              <div className="description">
-                <h2>Laptop Dell inspiron n-4050</h2>
-                <p>7800 LE.</p>
-                <p className="city">
-                  <FontAwesomeIcon icon="location-arrow" /> Mansoura
-                </p>
-                <Link to="/">Read More...</Link>
-              </div>
-            </section>
-            <section className="card">
-              <img src={image} alt="image2" />
-              <div className="description">
-                <h2>Laptop Dell inspiron n-4050</h2>
-                <p>7800 LE.</p>
-                <p className="city">
-                  <FontAwesomeIcon icon="location-arrow" /> Mansoura
-                </p>
-                <Link to="/">Read More...</Link>
-              </div>
-            </section>
-            <section className="card">
-              <img src={image} alt="image3" />
-              <div className="description">
-                <h2>Laptop Dell inspiron n-4050</h2>
-                <p>7800 LE.</p>
-                <p className="city">
-                  <FontAwesomeIcon icon="location-arrow" /> Mansoura
-                </p>
-                <Link to="/">Read More...</Link>
-              </div>
-            </section>
-            <section className="card">
-              <img src={image} alt="image4" />
-              <div className="description">
-                <h2>Laptop Dell inspiron n-4050</h2>
-                <p>7800 LE.</p>
-                <p className="city">
-                  <FontAwesomeIcon icon="location-arrow" /> Mansoura
-                </p>
-                <Link to="/">Read More...</Link>
-              </div>
-            </section>
+            {this.state.Items.map((item, i) => (
+              <section className="card" key={i}>
+                <img src={item.Image} alt={item.Name} />
+                <div className="description">
+                  <h2>{item.Name}</h2>
+                  <p>{item.Price} LE.</p>
+                  <p className="city">
+                    <FontAwesomeIcon icon="location-arrow" /> {item.userCity}
+                  </p>
+                  <Link to={`/item/${item.itemId}`}>Read More...</Link>
+                </div>
+              </section>
+            ))}
           </main>
-          {!localStorage.getItem("userId") ? 
-          <aside>
-            <form onSubmit={this.handleSubmit}>
-              <h1>Join Us Now</h1>
-              <Input
-                name="User"
-                label="User Name"
-                type="text"
-                text="Enter your user name"
-                icon="user"
-                warning="You must type your name"
-                changeInput={this.changeInput}
-              />
-              <Input
-                name="Password"
-                label="Password"
-                type="password"
-                text="Enter your password"
-                icon="key"
-                warning="You must type your password"
-                changeInput={this.changeInput}
-              />
-              <div className="login-links">
-                <Link to="/" onClick={this.forgetPassword}>
-                  Forget your password?
-                </Link>
-                <Link to="/signup">Sign up</Link>
-              </div>
-              <input type="submit" value="Login" />
-            </form>
-          </aside> : ''
-          }
+          {!localStorage.getItem("userId") ? (
+            <aside>
+              <form onSubmit={this.handleSubmit}>
+                <h1>Join Us Now</h1>
+                <Input
+                  name="User"
+                  label="User Name"
+                  type="text"
+                  text="Enter your user name"
+                  icon="user"
+                  warning="You must type your name"
+                  changeInput={this.changeInput}
+                />
+                <Input
+                  name="Password"
+                  label="Password"
+                  type="password"
+                  text="Enter your password"
+                  icon="key"
+                  warning="You must type your password"
+                  changeInput={this.changeInput}
+                />
+                <div className="login-links">
+                  <Link to="/" onClick={this.forgetPassword}>
+                    Forget your password?
+                  </Link>
+                  <Link to="/signup">Sign up</Link>
+                </div>
+                <input type="submit" value="Login" />
+              </form>
+            </aside>
+          ) : (
+            ""
+          )}
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}

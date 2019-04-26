@@ -12,7 +12,7 @@ export default class Item extends Component {
     this.state = {
       Name: "",
       Price: null,
-      Image: '',
+      Image: "",
       Description: "",
       buyer: {
         Name: "",
@@ -32,7 +32,13 @@ export default class Item extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(doc => {
-        const { Name: itemName, Price, Image, Description, userId } = doc.data();
+        const {
+          Name: itemName,
+          Price,
+          Image,
+          Description,
+          userId
+        } = doc.data();
         firebase
           .firestore()
           .collection("Users")
@@ -86,10 +92,7 @@ export default class Item extends Component {
                 <strong> {this.state.Price} LE. </strong>{" "}
               </p>
             </div>
-                <img
-                  src={this.state.Image}
-                  alt="First for product"
-                />
+            <img src={this.state.Image} alt="First for product" />
             <h2> Description </h2>
             <p> {this.state.Description} </p>
           </main>

@@ -66,7 +66,7 @@ export default class Navbar extends Component {
               {!isUser ? (
                 <NavLink to="/signup"> Sign up </NavLink>
               ) : (
-                <NavLink to={`/profile/${isUser}}`}>
+                <NavLink to={`/profile/${isUser}`}>
                   Profile
                 </NavLink>
               )}{" "}

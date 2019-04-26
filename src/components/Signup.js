@@ -42,7 +42,13 @@ export default class Signup extends Component {
     else if (this.state.Password !== this.state.RePassword)
       this.setState({ unvalid: "pass", modalIsOpen: true });
     else {
-      this.addToFirebase();
+      this.ref
+        .where("User", "==", this.state.User)
+        .get()
+        .then(doc => {
+          if (doc.empty) this.addToFirebase();
+          else this.setState({ unvalid: "user", modalIsOpen: true });
+        });
     }
   };
 
@@ -68,11 +74,13 @@ export default class Signup extends Component {
     let modalText =
       this.state.unvalid === "missing" ? (
         <p>Missing data</p>
-      ) : this.state.unvalid === "pass" ?(
+      ) : this.state.unvalid === "pass" ? (
         <p>Your passwords don't match</p>
       ) : this.state.unvalid === "user" ? (
         <p>This user name is used before </p>
-      ) : '' ;
+      ) : (
+        ""
+      );
 
     return (
       <React.Fragment>

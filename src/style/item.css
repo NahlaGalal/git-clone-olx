@@ -18,11 +18,7 @@ div.item main{
 div.item button{display: none}
 div.item main h1{font-weight: 600;}
 div.item main div p, main div hr{display: none}
-div.item main .slider-wrapper img{height: 500px;}
-div.item main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
-div.item main .carousel .thumbs-wrapper{margin: 10px 0;}
-div.item main .thumbs-wrapper img{height: 50px;}
-div.item main .carousel.loaded{width: 100% !important;}
+div.item main img{width: 100%}
 
 div.item main p{
     padding: 0 20px;

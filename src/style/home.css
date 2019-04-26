@@ -11,15 +11,14 @@ main nav ul{
     list-style: none;
     display: flex;
     padding: 0;
+    justify-content: center;
 }
 
 main nav ul li{margin-left: 20px}
 
-main nav ul li a{
-    text-decoration: none;
+main nav ul li button{
     color: #FFF;
     background-color: var(--main-color);
-    display: block;
     height: 50px;
     width: 133px;
     border-radius: 5px;
@@ -27,6 +26,9 @@ main nav ul li a{
     font-size: 20px;
     font-weight: 600;
     line-height: 2.5em;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
 main .card{
@@ -38,7 +40,7 @@ main .card{
 }
 
 main .card img{
-    max-width: 170px;
+    width: 170px;
     height:160px;
     margin: 10px;
 }
