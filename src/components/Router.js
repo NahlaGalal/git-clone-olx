@@ -7,6 +7,7 @@ import Signup from './Signup';
 import Error from './Error';
 import AddItem from './AddItem';
 import Profile from './Profile';
+import Category from './Category';
 
 export default class Router extends Component {
     render() {
@@ -21,6 +22,7 @@ export default class Router extends Component {
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/addItem" component={AddItem} />
                             <Route exact path="/profile" component={Profile}/>
+                            <Route exact path="/categories/:name" component={Category}/>
                             <Route exact path="/error" component={Error} />
                             <Redirect to="/error" />
                         </Switch>

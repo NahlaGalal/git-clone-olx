@@ -15,8 +15,7 @@ main nav ul{
 
 main nav ul li{margin-left: 20px}
 
-main nav ul li a{
-    text-decoration: none;
+main nav ul li button{
     color: #FFF;
     background-color: var(--main-color);
     display: block;
@@ -27,6 +26,9 @@ main nav ul li a{
     font-size: 20px;
     font-weight: 600;
     line-height: 2.5em;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
 main .card{
@@ -38,7 +40,7 @@ main .card{
 }
 
 main .card img{
-    max-width: 170px;
+    width: 170px;
     height:160px;
     margin: 10px;
 }
@@ -46,6 +48,7 @@ main .card img{
 main .card div{width: 100%;}
 main .card div h2{padding-left: 20px}
 main .card p:first-of-type{font-size: 20px;}
+
 main .card p.city{
     display: inline-block;
     margin-top: 0;

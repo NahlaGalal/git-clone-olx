@@ -1,0 +1,44 @@
+.category h1{
+  text-align: center;
+  font-size: 40px;
+  text-shadow: 2px 2px 4px rgba(221, 149, 149, 0.5);
+}
+
+.category main{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category section{
+  width: calc(33% - 20px);
+  margin: 10px;
+  background-color: var(--background-color);
+  border-radius: 25px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.category section img{
+  width: 90%;
+  height: 200px;
+  display: block;
+  margin: 10px auto;
+}
+
+.category section h2{
+  color: var(--main-color);
+  font-size: 26px;
+}
+
+.category section .price{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.category section .description a{
+  float: right;
+  margin: 20px 20px 0 0;
+}
+
+.category section p svg{margin-right: 5px; }
+

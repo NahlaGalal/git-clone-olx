@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Input from "./Input";
 
 import "../style/home.css";
@@ -47,24 +47,19 @@ export default class Home extends Component {
             <nav>
               <ul>
                 <li>
-                  {" "}
-                  <NavLink to="/">All</NavLink>{" "}
+                  <button>All</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Books</NavLink>{" "}
+                  <button>Books</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Electronics</NavLink>{" "}
+                  <button>Electronics</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Furniture</NavLink>{" "}
+                  <button>Furniture</button>
                 </li>
                 <li>
-                  {" "}
-                  <NavLink to="/">Cars</NavLink>{" "}
+                  <button>Cars</button>
                 </li>
               </ul>
             </nav>

@@ -29,7 +29,7 @@ export default class Navbar extends Component {
                             <div className="hidden">
                                 <ul>
                                     <li><NavLink to="/categories/books"> Books </NavLink> </li>
-                                    <li><NavLink to="/categouries/electronics"> Electronics </NavLink> </li>
+                                    <li><NavLink to="/categories/electronics"> Electronics </NavLink> </li>
                                     <li><NavLink to="/categories/furnitre"> Furniture </NavLink> </li>
                                     <li><NavLink to="/categories/cars"> Cars </NavLink> </li>
                                 </ul>
