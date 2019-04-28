@@ -18,11 +18,7 @@ div.item main{
 div.item button{display: none}
 div.item main h1{font-weight: 600;}
 div.item main div p, main div hr{display: none}
-div.item main .slider-wrapper img{height: 500px;}
-div.item main .carousel.carousel-slider .control-arrow{background-color: #C4C4C4}
-div.item main .carousel .thumbs-wrapper{margin: 10px 0;}
-div.item main .thumbs-wrapper img{height: 50px;}
-div.item main .carousel.loaded{width: 100% !important;}
+div.item main div img{width: 100%}
 
 div.item main p{
     padding: 0 20px;
@@ -31,6 +27,8 @@ div.item main p{
 }
 
 div.item aside{
+    display: flex;
+    flex-direction: column;
     flex: 1;
     background-color: var(--background-color);
     height: max-content;
@@ -70,6 +68,7 @@ div.item aside dl{
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 20px;
+    margin-top: 0;
 }
 
 div.item aside dt{font-weight: bold;}
@@ -77,12 +76,19 @@ div.item aside dt{font-weight: bold;}
 @media screen and (max-width: 1000px){
     div.item{flex-direction: column}
     div.item main, aside{width: 100%;}
-    div.item main{margin-bottom: 0}
+    div.item main{
+        margin-bottom: 0;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
     div.item aside p, aside button{display: none}
 
     div.item aside{
         box-shadow: none;
         margin-bottom: 20px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 
     div.item main .info{
@@ -90,6 +96,8 @@ div.item aside dt{font-weight: bold;}
         position: absolute;
         background-color: rgba(153, 153, 153, 0.7);
         width: 100%;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 
     div.item main .info *{color: #FFF}
@@ -109,16 +117,32 @@ div.item aside dt{font-weight: bold;}
         display: block;
     }
 
-    div.item > button{
-        display: block;
-        position: fixed;
-        bottom: 0;
-        width: 85%;
+    div.item main div img{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    div.item aside button{
+        order: 2;
+        width: 100%;
         background-color: #FFF;
-        color: var(--main-color);
         font-size: 20px;
         font-weight: 600;
         border: none;
         height:30px;
+        border-radius: 0;
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 507px){
+    div.item main .info h1{
+        font-size: 24px;
+        margin: 10px;
+    }
+    
+    div.item main .info p{
+        font-size: 16px;
+        margin: 10px;
     }
 }

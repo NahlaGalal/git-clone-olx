@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Carousel } from "react-responsive-carousel";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -74,26 +73,12 @@ export default class Item extends Component {
                 <strong> {this.state.price} LE. </strong>{" "}
               </p>
             </div>
-            <Carousel showStatus={false} autoPlay={true} infiniteLoop={true}>
-              <div>
-                <img
-                  src={require("../Images/lab1.jpg")}
-                  alt="First for product"
-                />
-              </div>
-              <div>
-                <img
-                  src={require("../Images/lab2.jpg")}
-                  alt="First for product"
-                />
-              </div>
-              <div>
-                <img
-                  src={require("../Images/lab3.jpeg")}
-                  alt="First for product"
-                />
-              </div>
-            </Carousel>
+            <div>
+              <img
+                src={require("../Images/lab3.jpeg")}
+                alt="First for product"
+              />
+            </div>
             <h2> Description </h2>
             <p> {this.state.description} </p>
           </main>
@@ -121,7 +106,6 @@ export default class Item extends Component {
               <dd>{this.state.buyer.city}</dd>
             </dl>
           </aside>
-          <button onClick={this.openModal}>Buy Now</button>
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}

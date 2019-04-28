@@ -18,14 +18,18 @@ export default class Home extends Component {
   }
 
   changeInput = e => this.setState({ [e.target.name]: e.target.value });
-	hideModal = () => {this.setState({modalIsOpen: false})}
-	forgetPassword = () => {this.setState({modalIsOpen: true})}
+  hideModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+  forgetPassword = () => {
+    this.setState({ modalIsOpen: true });
+  };
 
-	sendMail = () => {}
+  sendMail = () => {};
 
   handleSubmit = e => {
-		e.preventDefault();
-	};
+    e.preventDefault();
+  };
 
   render() {
     let modalText = (
@@ -38,7 +42,7 @@ export default class Home extends Component {
           placeholder="Enter your email"
         />
       </div>
-    )
+    );
 
     return (
       <React.Fragment>
@@ -138,15 +142,16 @@ export default class Home extends Component {
               </div>
               <input type="submit" value="Login" />
             </form>
+            <hr />
           </aside>
         </div>
-				<Modal 
-				isOpen={this.state.modalIsOpen}
-        header="Assurance"
-        text={modalText}
-				OkButton={this.sendMail}
-				hideModal={this.hideModal}
-				/>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          header="Assurance"
+          text={modalText}
+          OkButton={this.sendMail}
+          hideModal={this.hideModal}
+        />
       </React.Fragment>
     );
   }
