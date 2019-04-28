@@ -1,42 +1,43 @@
-.home{
-    background-color: var(--background-color);
-    display: flex;
-    margin: 20px auto !important;
-    border-radius: 25px;
+div.home {
+  background-color: var(--background-color);
+  display: flex;
+  margin: 20px auto !important;
+  border-radius: 25px;
 }
 
 main{flex: 2;}
 
-main nav ul{
-    list-style: none;
-    display: flex;
-    padding: 0;
-    justify-content: center;
+
+main nav ul {
+  list-style: none;
+  display: flex;
+	padding: 0;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
-main nav ul li{margin-left: 20px}
+main nav ul li{ margin: 20px 0 0 20px}
 
-main nav ul li button{
-    color: #FFF;
-    background-color: var(--main-color);
-    height: 50px;
-    width: 133px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 2.5em;
-    border: none;
-    outline: none;
-    cursor: pointer;
+main nav ul li button {
+  color: #fff;
+  background-color: var(--main-color);
+  height: 50px;
+  width: 130px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 2.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
-main .card{
-    display: flex;
-    background-color: rgba(24, 117, 209, 0.15);
-    margin-bottom: 15px;
-    border-radius: 5px;
-    margin-left: 5px;
+main .card {
+  display: flex;
+  background-color: rgba(24, 117, 209, 0.15);
+  border-radius: 5px;
+  margin: 0 5px 15px;
 }
 
 main .card img{
@@ -46,25 +47,41 @@ main .card img{
 }
 
 main .card div{width: 100%;}
-main .card div h2{padding-left: 20px}
+main .card div h2{padding-left: 20px;}
 main .card p:first-of-type{font-size: 20px;}
-main .card p.city{
-    display: inline-block;
-    margin-top: 0;
+
+main .card p.city {
+  display: inline-block;
+  margin-top: 0;
 }
 
-main .card a{
-    float: right;
-    margin-right: 20px;
+main .card a {
+  float: right;
+	margin-right: 20px;
+	margin-bottom: 10px;
 }
 
-aside{
-    flex: 1; 
-    padding: 20px;
+aside{flex: 1;}
+aside form{margin: 20px;}
+
+aside form .login-links {
+  margin: 30px 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-aside form .login-links{
-    margin: 30px 0;
-    display: flex;
-    justify-content: space-between;
+aside hr{display: none}
+
+@media screen and (max-width: 1220px) {
+  div.home{width: 95%;}
+}
+
+@media screen and (max-width: 1090px) {
+	div.home{flex-direction: column;}
+	div.home aside{order: -1}
+
+	div.home aside hr{
+		display: block;
+		width: 80%;
+	}
 }

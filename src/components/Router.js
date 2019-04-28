@@ -7,6 +7,7 @@ import Signup from './Signup';
 import Error from './Error';
 import AddItem from './AddItem';
 import Profile from './Profile';
+import Category from './Category';
 
 export default class Router extends Component {
     render() {

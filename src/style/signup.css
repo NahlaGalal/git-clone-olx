@@ -95,6 +95,6 @@ form div p.pass-ccs{
 }
 
 @media screen and (max-width: 745px){
-    form{width: 80%}
+    form.signup{width: 80%}
     form h1{font-size: 32px;}
 }

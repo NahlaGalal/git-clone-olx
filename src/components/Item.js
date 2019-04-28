@@ -120,7 +120,6 @@ export default class Item extends Component {
               <dd>{this.state.buyer.City}</dd>
             </dl>
           </aside>
-          <button onClick={this.openModal}>Buy Now</button>
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}

@@ -59,6 +59,7 @@ export default class Home extends Component {
       .get()
       .then(user => user.data().City);
 
+
   changeCategory = e => {
     this.setState({ Category: e.target.textContent }, () => this.getItems());
   };
@@ -103,6 +104,7 @@ export default class Home extends Component {
         }
       });
   };
+
 
   render() {
     return (
