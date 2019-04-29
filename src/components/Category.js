@@ -59,8 +59,9 @@ export default class Category extends Component{
               <img src={item.Image} alt={item.Name + i} />
               <h2>{item.Name}</h2>
               <p className="price">{item.Price} LE.</p>
-              <p className="description">{item.Description.split('', 260).join('')} <Link to="/item">Read more...</Link></p>
-              <p>
+              <p className="description">{item.Description}</p>
+              <Link to="/item">Read more...</Link>
+              <p className="city">
                 <FontAwesomeIcon icon="location-arrow" />
                 {item.buyer.City}
               </p>
