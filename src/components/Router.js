@@ -22,6 +22,7 @@ export default class Router extends Component {
                             <Route exact path="/signup" component={Signup} />
                             <Route exact path="/addItem/:id" component={AddItem} />
                             <Route exact path="/profile/:id" component={Profile} />
+                            <Route exact path="/categories/:name" component={Category} />
                             <Route exact path="/error" component={Error} />
                             <Redirect to="/error" />
                         </Switch>

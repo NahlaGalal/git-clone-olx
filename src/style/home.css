@@ -3,6 +3,7 @@ div.home {
   display: flex;
   margin: 20px auto !important;
   border-radius: 25px;
+  min-height: calc(100vh - 105px);
 }
 
 main{flex: 2;}
@@ -84,4 +85,8 @@ aside hr{display: none}
 		display: block;
 		width: 80%;
 	}
+}
+
+@media screen and (max-width: 1065px) and (min-width: 827px){
+  div.home{min-height: calc(100vh - 130px)}
 }

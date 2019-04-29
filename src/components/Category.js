@@ -1,102 +1,68 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import firebase from '../firebase';
 
 import '../style/category.css';
-import lab1image from '../Images/lab1.jpg';
-
 
 export default class Category extends Component{
   constructor(props){
     super(props);
     this.state = {
-      items: [
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800,
-          image: "../Images/lab1.jpg",
-          description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?`,
-          buyer: {
-            name: "Nahla Galal",
-            phone: "01001112345",
-            email: "nahlaglal@gmail.com",
-            city: "Mansoura"
-          }
-        },
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800,
-          image: "../Images/lab1.jpg",
-          description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?`,
-          buyer: {
-            name: "Nahla Galal",
-            phone: "01001112345",
-            email: "nahlaglal@gmail.com",
-            city: "Mansoura"
-          }
-        },
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800,
-          image: "../Images/lab1.jpg",
-          description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?`,
-          buyer: {
-            name: "Nahla Galal",
-            phone: "01001112345",
-            email: "nahlaglal@gmail.com",
-            city: "Mansoura"
-          }
-        },
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800,
-          image: "../Images/lab1.jpg",
-          description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, beatae repellendus. Pariatur asperiores, beatae dolores laboriosam deleniti nobis eius esse minus dolore suscipit facilis commodi nesciunt nemo a praesentium adipisci?`,
-          buyer: {
-            name: "Nahla Galal",
-            phone: "01001112345",
-            email: "nahlaglal@gmail.com",
-            city: "Mansoura"
-          }
-        }
-      ]
+      items:[]
     }
+  }
+
+  componentDidMount(){
+    firebase
+      .firestore()
+      .collection("Items")
+      .where("Category", "==", this.props.match.params.name)
+      .get()
+      .then(doc =>{
+        const items= [];
+        doc.docs.map(data => {
+          this.getBuyerInformation(data.data().userId).then(City =>{
+            const item = {
+              Name: data.data().Name,
+              Price: data.data().Price,
+              Image: data.data().Image,
+              Description: data.data().Description,
+              buyer: {
+                City
+              }
+            }
+            items.push(item);
+            console.log(items);
+            this.setState({items});
+          })
+        })
+      })
+  }
+
+  getBuyerInformation(userId){
+    return firebase
+      .firestore()
+      .collection("Users")
+      .doc(userId)
+      .get()
+      .then(doc => doc.data().City)
   }
 
   render() {
     return (
       <div className="category">
-        <h1> Book Category </h1>
+        <h1> {this.props.match.params.name} Category </h1>
         <main className="container">
           {this.state.items.map((item, i) => (
             <section className="item" key={i}>
-              <img src={lab1image} alt={item.name + i} />
-              <h2>{item.name}</h2>
-              <p className="price">{item.price} LE.</p>
-              <p className="description">{item.description.split('', 260).join('')} <Link to="/item">Read more...</Link></p>
+              <img src={item.Image} alt={item.Name + i} />
+              <h2>{item.Name}</h2>
+              <p className="price">{item.Price} LE.</p>
+              <p className="description">{item.Description.split('', 260).join('')} <Link to="/item">Read more...</Link></p>
               <p>
                 <FontAwesomeIcon icon="location-arrow" />
-                {item.buyer.city}
+                {item.buyer.City}
               </p>
             </section>
           ))}

@@ -45,7 +45,7 @@ export default class Navbar extends Component {
                     <NavLink to="/categories/books"> Books </NavLink>{" "}
                   </li>
                   <li>
-                    <NavLink to="/categouries/electronics">
+                    <NavLink to="/categories/electronics">
                       {" "}
                       Electronics{" "}
                     </NavLink>{" "}
