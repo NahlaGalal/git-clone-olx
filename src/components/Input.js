@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default class Input extends Component {
   state = { number: "" };
 
-  componentDidMount(){
-    this.setState({number: this.props.defaultValue});
+  componentDidMount() {
+    this.setState({ number: this.props.defaultValue });
   }
 
   checkInput = e => {
@@ -38,10 +38,15 @@ export default class Input extends Component {
           onInput={this.checkInput}
           value={this.state.number}
         />
-        <p>
-          {" "}
-          <FontAwesomeIcon icon={"exclamation-triangle"} /> {this.props.warning}
-        </p>
+        {this.props.warning ? (
+          <p>
+            {" "}
+            <FontAwesomeIcon icon={"exclamation-triangle"} />{" "}
+            {this.props.warning}{" "}
+          </p>
+        ) : (
+          <span />
+        )}
         {this.props.name === "Password" ? (
           <p className="pass-ccs">
             Your password must be more than 8 charctars
