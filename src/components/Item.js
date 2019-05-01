@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import ReactLoading from "react-loading";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../style/item.css";
@@ -140,7 +141,15 @@ export default class Item extends Component {
   };
 
   render() {
-    return (
+    return !this.state.Name ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <React.Fragment>
         <div className="container item">
           <main>

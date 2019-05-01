@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import firebase from '../firebase';
+import ReactLoading from "react-loading";
+import firebase from "../firebase";
 
-import '../style/category.css';
+import "../style/category.css";
 
-export default class Category extends Component{
-  constructor(props){
+export default class Category extends Component {
+  constructor(props) {
     super(props);
     this.state = {
-      items:[]
-    }
+      items: []
+    };
   }
 
   handleData = () => {
@@ -19,10 +20,10 @@ export default class Category extends Component{
       .collection("Items")
       .where("Category", "==", this.props.match.params.name)
       .get()
-      .then(doc =>{
-        let items= [];
+      .then(doc => {
+        let items = [];
         doc.docs.map(data => {
-          this.getBuyerInformation(data.data().userId).then(City =>{
+          this.getBuyerInformation(data.data().userId).then(City => {
             const item = {
               Id: data.id,
               Name: data.data().Name,
@@ -32,31 +33,42 @@ export default class Category extends Component{
               buyer: {
                 City
               }
-            }
+            };
             items.push(item);
-            this.setState({items})
-          })
-        })
-    })
-  }
+            this.setState({ items });
+          });
+        });
+      });
+  };
 
-  getBuyerInformation(userId){
+  getBuyerInformation(userId) {
     return firebase
       .firestore()
       .collection("Users")
       .doc(userId)
       .get()
-      .then(doc => doc.data().City)
+      .then(doc => doc.data().City);
   }
 
-  componentDidMount(){this.handleData();}
+  componentDidMount() {
+    this.handleData();
+  }
 
-  componentDidUpdate(prevProps){
-    if(this.props.location.pathname !== prevProps.location.pathname) this.handleData();
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname)
+      this.handleData();
   }
 
   render() {
-    return (
+    return !this.state.items.length ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <div className="category">
         <h1> {this.props.match.params.name} Category </h1>
         <main className="container">
@@ -75,6 +87,6 @@ export default class Category extends Component{
           ))}
         </main>
       </div>
-    )
+    );
   }
 }

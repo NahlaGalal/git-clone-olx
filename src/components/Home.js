@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ReactLoading from "react-loading";
 import Input from "./Input";
 import firebase from "../firebase";
 
@@ -59,7 +60,6 @@ export default class Home extends Component {
       .get()
       .then(user => user.data().City);
 
-
   changeCategory = e => {
     this.setState({ Category: e.target.textContent }, () => this.getItems());
   };
@@ -105,9 +105,16 @@ export default class Home extends Component {
       });
   };
 
-
   render() {
-    return (
+    return this.state.Items.length === 0 ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <React.Fragment>
         <div className="home container">
           <main>
