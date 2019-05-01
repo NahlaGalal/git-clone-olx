@@ -49,9 +49,13 @@ export default class Category extends Component{
       .then(doc => doc.data().City)
   }
 
-  render() {
-    this.handleData();
+  componentDidMount(){this.handleData();}
 
+  componentDidUpdate(prevProps){
+    if(this.props.location.pathname !== prevProps.location.pathname) this.handleData();
+  }
+
+  render() {
     return (
       <div className="category">
         <h1> {this.props.match.params.name} Category </h1>
