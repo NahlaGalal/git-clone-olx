@@ -13,17 +13,18 @@ export default class Category extends Component{
     }
   }
 
-  componentDidMount(){
+  handleData = () => {
     firebase
       .firestore()
       .collection("Items")
       .where("Category", "==", this.props.match.params.name)
       .get()
       .then(doc =>{
-        const items= [];
+        let items= [];
         doc.docs.map(data => {
           this.getBuyerInformation(data.data().userId).then(City =>{
             const item = {
+              Id: data.id,
               Name: data.data().Name,
               Price: data.data().Price,
               Image: data.data().Image,
@@ -33,11 +34,10 @@ export default class Category extends Component{
               }
             }
             items.push(item);
-            console.log(items);
-            this.setState({items});
+            this.setState({items})
           })
         })
-      })
+    })
   }
 
   getBuyerInformation(userId){
@@ -50,6 +50,8 @@ export default class Category extends Component{
   }
 
   render() {
+    this.handleData();
+
     return (
       <div className="category">
         <h1> {this.props.match.params.name} Category </h1>
@@ -60,7 +62,7 @@ export default class Category extends Component{
               <h2>{item.Name}</h2>
               <p className="price">{item.Price} LE.</p>
               <p className="description">{item.Description}</p>
-              <Link to="/item">Read more...</Link>
+              <Link to={`/item/${item.Id}`}>Read more...</Link>
               <p className="city">
                 <FontAwesomeIcon icon="location-arrow" />
                 {item.buyer.City}
