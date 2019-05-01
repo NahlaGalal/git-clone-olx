@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default class Input extends Component {
   state = { number: "" };
 
+  componentDidMount(){
+    this.setState({number: this.props.defaultValue});
+  }
+
   checkInput = e => {
     if (e.target.name === "Phone") {
       if (!isNaN(e.target.value)) this.setState({ number: e.target.value });

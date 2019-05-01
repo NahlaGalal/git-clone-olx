@@ -8,6 +8,7 @@ import Error from './Error';
 import AddItem from './AddItem';
 import Profile from './Profile';
 import Category from './Category';
+import UpdateItem from './UpdateItem';
 
 export default class Router extends Component {
     render() {
@@ -20,6 +21,7 @@ export default class Router extends Component {
                             <Route exact path="/home" component={Home} />
                             <Route exact path="/item/:id" component={Item} />
                             <Route exact path="/signup" component={Signup} />
+                            <Route exact path="/updateItem/:id" component={UpdateItem} />
                             <Route exact path="/addItem/:id" component={AddItem} />
                             <Route exact path="/profile/:id" component={Profile} />
                             <Route exact path="/categories/:name" component={Category} />

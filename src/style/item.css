@@ -37,6 +37,8 @@ div.item aside{
     border-radius: 10px;
 }
 
+div.item aside .profile{cursor: pointer;}
+
 div.item aside>p{
     text-align: center;
     font-size: 2em;

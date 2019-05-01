@@ -14,15 +14,20 @@ export default class Item extends Component {
       Price: null,
       Image: "",
       Description: "",
+      Quantity: null,
+      Category: "",
       buyer: {
+        Id: null,
         Name: "",
         Phone: "",
         Mail: "",
         City: ""
       },
       modalIsOpen: false,
+      modalHeader: "",
       copied: false
     };
+    this.modalText = "";
   }
 
   componentDidMount() {
@@ -37,7 +42,9 @@ export default class Item extends Component {
           Price,
           Image,
           Description,
-          userId
+          userId,
+          Quantity,
+          Category
         } = doc.data();
         firebase
           .firestore()
@@ -46,18 +53,22 @@ export default class Item extends Component {
           .get()
           .then(doc2 => {
             const { Name, Phone, Mail, City } = doc2.data();
-            const buyer = { Name, Phone, Mail, City };
-            this.setState({ Name: itemName, Price, Image, Description, buyer });
+            const buyer = { Id: doc2.id, Name, Phone, Mail, City };
+            this.setState({
+              Name: itemName,
+              Price,
+              Image,
+              Description,
+              Quantity,
+              Category,
+              buyer
+            });
           });
       });
   }
 
-  openModal = () => this.setState({ modalIsOpen: true });
-  hideModal = () => this.setState({ modalIsOpen: false });
-  copyText = e => {};
-
-  render() {
-    let modalText = (
+  openModal = () => {
+    this.modalText = (
       <div>
         <dl>
           <dt>Phone: </dt>
@@ -79,7 +90,56 @@ export default class Item extends Component {
         )}
       </div>
     );
+    this.setState({ modalIsOpen: true, modalHeader: "Information" });
+  };
 
+  hideModal = () => this.setState({ modalIsOpen: false });
+
+  openDeleteModal = () => {
+    this.modalText = (
+      <div>
+        <p> Are you sure you want to delete this item </p>
+      </div>
+    );
+    this.setState({ modalIsOpen: true, modalHeader: "Assurance" });
+  };
+
+  deleteItem = () => {
+    firebase
+      .firestore()
+      .collection("Items")
+      .doc(this.props.match.params.id)
+      .delete()
+      .then(() => this.props.history.push("/home"));
+  };
+
+  editItem = () => {
+    const { Name, Price, Image, Description, Quantity, Category } = this.state;
+    this.props.history.push({
+      pathname: `/updateItem/${this.props.match.params.id}`,
+      state: {
+        Name,
+        Price,
+        Image,
+        Description,
+        Quantity,
+        Category
+      }
+    });
+  };
+
+  checkIfOwner = () => {
+    if (localStorage.getItem("userId") === this.state.buyer.Id) {
+      return (
+        <div>
+          <button onClick={this.openDeleteModal}>Delete item</button>
+          <button onClick={this.editItem}>Edit item</button>
+        </div>
+      );
+    }
+  };
+
+  render() {
     return (
       <React.Fragment>
         <div className="container item">
@@ -111,21 +171,32 @@ export default class Item extends Component {
               <dd>8 GB</dd>
               <dt>Processor Speed</dt>
               <dd>2.5 GHz</dd>
+              <dt>Quantity</dt>
+              <dd>{this.state.Quantity}</dd>
             </dl>
             <h2> Buyer Information </h2>
             <dl>
               <dt>Name</dt>
-              <dd>{this.state.buyer.Name}</dd>
+              <dd
+                onClick={() =>
+                  this.props.history.push(`/profile/${this.state.buyer.Id}`)
+                }
+                className="profile"
+              >
+                {this.state.buyer.Name}
+              </dd>
               <dt>City</dt>
               <dd>{this.state.buyer.City}</dd>
             </dl>
+            {this.checkIfOwner()}
           </aside>
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}
-          header="Information"
-          text={modalText}
+          header={this.state.modalHeader}
+          text={this.modalText}
           hideModal={this.hideModal}
+          OkButton={this.deleteItem}
         />
       </React.Fragment>
     );
