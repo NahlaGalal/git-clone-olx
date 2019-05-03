@@ -1,29 +1,21 @@
 import React, { Component } from "react";
+import ReactLoading from "react-loading";
+import { Link } from "react-router-dom";
 import firebase from "../firebase";
-import {Link} from 'react-router-dom';
 
-import '../style/profile.css'
+import "../style/profile.css";
 
 export default class Profile extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      Name: 'Nahla Galal',
-      User: 'Nahla5',
-      Phone: '010001111',
-      Mail: 'nahlaglal@gmail.com',
-      City: 'El-Mahalla',
-      Items: [
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800
-        },
-        {
-          name: "Laptop Dell - inspiron n4050",
-          price: 7800
-        }
-      ]
-    }
+      Name: "",
+      User: "",
+      Phone: "",
+      Mail: "",
+      City: "",
+      Items: []
+    };
   }
 
   componentDidMount() {
@@ -34,7 +26,8 @@ export default class Profile extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(doc => {
-        console.log(doc.data());
+        const { Name, User, Phone, Mail, City } = doc.data();
+        this.setState({ Name, User, Phone, Mail, City });
       });
 
     // Get items
@@ -44,14 +37,26 @@ export default class Profile extends Component {
       .where("userId", "==", this.props.match.params.id)
       .get()
       .then(doc => {
-        doc.docs.map(item => console.log(item.data()))
-      })
+        doc.docs.map(item => {
+          const Items = [];
+          Items.push(item.data());
+          this.setState({ Items });
+        });
+      });
   }
 
   render() {
-    return (
+    return this.state.Items.length === 0 ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <main className="profile container">
-        <h1>{this.state.Name.split(' ', 2).map(letter => letter[0])}</h1>
+        <h1>{this.state.Name.split(" ", 2).map(letter => letter[0])}</h1>
         <section className="info">
           <h2>Your information</h2>
           <dl>
@@ -75,14 +80,14 @@ export default class Profile extends Component {
             {this.state.Items.map((item, i) => (
               <li className="item" key={i}>
                 <Link to="/item">
-                  <h3>{item.name}</h3>
-                  <p>{item.price} L.E.</p>
+                  <h3>{item.Name}</h3>
+                  <p>{item.Price} L.E.</p>
                 </Link>
               </li>
             ))}
           </ul>
         </section>
       </main>
-    )
+    );
   }
 }
