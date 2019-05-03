@@ -5,7 +5,8 @@
 
 body{
     background: linear-gradient(-45deg, rgba(24, 117, 219, 0.8), rgba(24, 117, 219, 0.29));
-    background-size: 100vw 100vh;
+    background-size: 100vw 1000vh ;
+    background-position: center;
 }
 
 *{

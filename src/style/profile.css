@@ -61,3 +61,21 @@ main.profile{
   float: right;
   margin-right: 40px
 } 
+
+@media screen and (max-width: 900px){
+  .profile section{
+    display: block;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 470px){
+  .profile .info dl{
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .profile .info dt{margin-top: 20px}
+  .profile .info dd{padding-left: 20px;}
+  .profile .info dt, .profile .info dd{width: 100%}
+}

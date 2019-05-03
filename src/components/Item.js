@@ -132,7 +132,7 @@ export default class Item extends Component {
   checkIfOwner = () => {
     if (localStorage.getItem("userId") === this.state.buyer.Id) {
       return (
-        <div>
+        <div className="owner-buttons">
           <button onClick={this.openDeleteModal}>Delete item</button>
           <button onClick={this.editItem}>Edit item</button>
         </div>

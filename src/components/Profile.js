@@ -39,7 +39,11 @@ export default class Profile extends Component {
       .then(doc => {
         doc.docs.map(item => {
           const Items = [];
-          Items.push(item.data());
+          const obj = {
+            ...item.data(),
+            Id: item.id
+          }
+          Items.push(obj);
           this.setState({ Items });
         });
       });
@@ -79,7 +83,7 @@ export default class Profile extends Component {
           <ul>
             {this.state.Items.map((item, i) => (
               <li className="item" key={i}>
-                <Link to="/item">
+                <Link to={`/item/${item.Id}`}>
                   <h3>{item.Name}</h3>
                   <p>{item.Price} L.E.</p>
                 </Link>

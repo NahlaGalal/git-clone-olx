@@ -76,6 +76,11 @@ div.item aside dl{
 
 div.item aside dt{font-weight: bold;}
 
+div.item aside .owner-buttons{
+    display: flex;
+    margin-bottom: 20px;
+}
+
 @media screen and (max-width: 1000px){
     div.item{flex-direction: column}
     div.item main, aside{width: 100%;}
