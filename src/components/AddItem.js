@@ -30,7 +30,7 @@ export default class AddItem extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(doc => {
-        this.setState({ User: doc.data().Name });
+        if(doc.data()) this.setState({ User: doc.data().Name});
       });
   }
 
