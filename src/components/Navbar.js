@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { auth } from "../firebase";
 
 import "../style/navbar.css";
 
@@ -14,10 +15,11 @@ export default class Navbar extends Component {
   handleChange = e => this.setState({ search: e.target.value });
   displayNav = e =>
     e.currentTarget.parentElement.nextElementSibling.classList.toggle("hidden");
-  logOut = () => localStorage.removeItem("userId");
+  logOut = () => auth.signOut().then(() => localStorage.removeItem("token"));
 
   render() {
-    const isUser = localStorage.getItem("userId");
+    const isUser = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
 
     return (
       <nav className="main-nav">
@@ -60,15 +62,15 @@ export default class Navbar extends Component {
               </div>
             </li>
             <li>
-              <NavLink to={`/addItem/${isUser ? isUser : 'error'}`}>Add Item</NavLink>
+              <NavLink to={`/addItem/${isUser ? userId : "error"}`}>
+                Add Item
+              </NavLink>
             </li>
             <li>
               {!isUser ? (
                 <NavLink to="/signup"> Sign up </NavLink>
               ) : (
-                <NavLink to={`/profile/${isUser}`}>
-                  Profile
-                </NavLink>
+                <NavLink to={`/profile/${userId}`}>Profile</NavLink>
               )}{" "}
             </li>
             <li>
@@ -99,4 +101,3 @@ export default class Navbar extends Component {
     );
   }
 }
-

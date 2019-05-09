@@ -11,7 +11,10 @@ const config = {
   messagingSenderId: "156096810962"
 };
 
-firebase.initializeApp(config);
 // firebase.firestore().settings(settings);
+firebase.initializeApp(config);
+
+export const provider = new firebase.auth.EmailAuthProvider();
+export const auth = firebase.auth();
 
 export default firebase;

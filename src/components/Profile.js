@@ -26,6 +26,7 @@ export default class Profile extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(doc => {
+        console.log(doc.data())
         const { Name, User, Phone, Mail, City } = doc.data();
         this.setState({ Name, User, Phone, Mail, City });
       });
@@ -50,7 +51,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    return this.state.Items.length === 0 ? (
+    return this.state.User === "" ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"

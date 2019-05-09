@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ReactLoading from "react-loading";
 import Input from "./Input";
-import firebase from "../firebase";
+import firebase, { auth } from "../firebase";
 
 import "../style/home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,8 @@ export default class Home extends Component {
       Items: [],
       modalIsOpen: false,
       modalHeader: "",
-      modalText: ""
+      modalText: "",
+      verificationMail: ""
     };
     this.ref = firebase.firestore().collection("Users");
     this.city = "";
@@ -76,32 +77,51 @@ export default class Home extends Component {
           name="email"
           id="mail"
           placeholder="Enter your email"
+          onChange={e => this.setState({ verificationMail: e.target.value })}
         />
       </div>
     );
     this.setState({ modalIsOpen: true, modalHeader: "Assurance", modalText });
   };
 
-  sendMail = () => {};
+  sendMail = () => {
+    auth
+      .sendPasswordResetEmail(this.state.verificationMail)
+      .then(() => {
+        const modalText = <p>Please review your mail</p>;
+        this.setState({
+          modalHeader: "Reset Password",
+          modalText
+        });
+      })
+      .catch(() => {
+        const modalText = <p>Invalid mail</p>;
+        this.setState({
+          modalHeader: "Error",
+          modalText
+        });
+      });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.ref
-      .where("User", "==", this.state.User)
-      .where("Password", "==", this.state.Password)
-      .get()
-      .then(doc => {
-        if (doc.empty) {
-          const errorLogin = <p>User name or password is wrong</p>;
-          this.setState({
-            modalIsOpen: true,
-            modalHeader: "Error",
-            modalText: errorLogin
-          });
-        } else {
-          localStorage.setItem("userId", doc.docs[0].id);
-          this.props.history.push("/profile/" + doc.docs[0].id);
-        }
+    auth
+      .signInWithEmailAndPassword(this.state.User+"@gitcloneolx.com", this.state.Password)
+      .then(data => {
+        data.user.getIdToken(true).then(token => {
+          localStorage.setItem("token", token);
+        });
+        localStorage.setItem("userId", data.user.uid);
+        this.props.history.push("/profile/" + data.user.uid);
+      })
+      .catch(err => {
+        console.log(err)
+        const errorLogin = <p>The password or user is invalid</p>;
+        this.setState({
+          modalIsOpen: true,
+          modalHeader: "Error",
+          modalText: errorLogin
+        });
       });
   };
 
@@ -151,7 +171,7 @@ export default class Home extends Component {
               </section>
             ))}
           </main>
-          {!localStorage.getItem("userId") ? (
+          {!localStorage.getItem("token") ? (
             <aside>
               <form onSubmit={this.handleSubmit}>
                 <h1>Join Us Now</h1>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Input from "./Input";
-import firebase from "../firebase";
+import firebase, { auth } from "../firebase";
 
 import "../style/signup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,6 @@ export default class Signup extends Component {
       unvalid: "valid",
       modalIsOpen: false
     };
-    this.ref = firebase.firestore().collection("Users");
   }
 
   changeInput = e => this.setState({ [e.target.name]: e.target.value });
@@ -42,28 +41,31 @@ export default class Signup extends Component {
     else if (this.state.Password !== this.state.RePassword)
       this.setState({ unvalid: "pass", modalIsOpen: true });
     else {
-      this.ref
-        .where("User", "==", this.state.User)
-        .get()
-        .then(doc => {
-          if (doc.empty) this.addToFirebase();
-          else this.setState({ unvalid: "user", modalIsOpen: true });
-        });
+      auth
+        .createUserAndRetrieveDataWithEmailAndPassword(
+          this.state.User + "@gitcloneolx.com",
+          this.state.Password
+        )
+        .then(data => this.addToFirebase(data.user.uid))
+        .catch(err => {
+          console.log(err)
+          this.setState({ unvalid: "user", modalIsOpen: true })
+        }
+          );
     }
   };
 
-  addToFirebase = () => {
-    const { Name, User, Mail, Password, Phone, City } = this.state;
-    this.ref
-      .add({
+  addToFirebase = userId => {
+    const { Name, User, Mail, Phone, City } = this.state;
+    firebase.firestore().collection("Users").doc(userId)
+      .set({
         Name,
         User,
         Mail,
-        Password,
         Phone,
         City
       })
-      .then(docref => {
+      .then(() => {
         this.setState({ unvalid: "valid" });
         this.props.history.push("/");
       })
