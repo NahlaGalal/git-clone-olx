@@ -39,6 +39,7 @@ export default class Category extends Component {
               items.push(item);
               this.setState({ items, isLoading: false });
             });
+            return data;
           });
         });
     });

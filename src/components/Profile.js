@@ -46,6 +46,7 @@ export default class Profile extends Component {
           };
           Items.push(obj);
           this.setState({ Items, isLoading: false });
+          return item;
         });
       });
   }

@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
-
-// const settings = {timestampsInSnapshots: true};
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const config = {
   apiKey: "AIzaSyBePhRX72W-kZuswwYncn84A040uscokpo",
@@ -11,7 +11,6 @@ const config = {
   messagingSenderId: "156096810962"
 };
 
-// firebase.firestore().settings(settings);
 firebase.initializeApp(config);
 
 export const provider = new firebase.auth.EmailAuthProvider();

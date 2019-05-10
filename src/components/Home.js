@@ -51,6 +51,7 @@ export default class Home extends Component {
                 if (Items.length <= 5)
                   this.setState({ Items, isLoading: false });
               });
+              return item;
             });
         });
     });
