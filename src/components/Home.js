@@ -109,27 +109,31 @@ export default class Home extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    auth
-      .signInWithEmailAndPassword(
-        this.state.User + "@gitcloneolx.com",
-        this.state.Password
-      )
-      .then(data => {
-        data.user.getIdToken(true).then(token => {
-          localStorage.setItem("token", token);
+    this.setState({isLoading: true}, () => {
+      auth
+        .signInWithEmailAndPassword(
+          this.state.User + "@gitcloneolx.com",
+          this.state.Password
+        )
+        .then(data => {
+          data.user.getIdToken(true).then(token => {
+            localStorage.setItem("token", token);
+          });
+          this.setState({isLoading: false})
+          localStorage.setItem("userId", data.user.uid);
+          this.props.history.push("/profile/" + data.user.uid);
+        })
+        .catch(err => {
+          console.log(err);
+          const errorLogin = <p>The password or user is invalid</p>;
+          this.setState({
+            modalIsOpen: true,
+            modalHeader: "Error",
+            modalText: errorLogin,
+            isLoading: false
+          });
         });
-        localStorage.setItem("userId", data.user.uid);
-        this.props.history.push("/profile/" + data.user.uid);
-      })
-      .catch(err => {
-        console.log(err);
-        const errorLogin = <p>The password or user is invalid</p>;
-        this.setState({
-          modalIsOpen: true,
-          modalHeader: "Error",
-          modalText: errorLogin
-        });
-      });
+    })
   };
 
   render() {
