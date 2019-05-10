@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// import "../style/about.css";
+import "../style/about.css";
 
 export default class About extends Component {
   render() {
