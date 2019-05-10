@@ -19,7 +19,8 @@ export default class Home extends Component {
       modalIsOpen: false,
       modalHeader: "",
       modalText: "",
-      verificationMail: ""
+      verificationMail: "",
+      isLoading: true
     };
     this.ref = firebase.firestore().collection("Users");
     this.city = "";
@@ -30,28 +31,29 @@ export default class Home extends Component {
   }
 
   getItems = () => {
-    firebase
-      .firestore()
-      .collection("Items")
-      .limit(5)
-      .get()
-      .then(doc => {
-        const Items = [];
-        doc.docs
-          .filter(
-            Items =>
-              Items.data().Category === this.state.Category.toLowerCase() ||
-              this.state.Category === "All"
-          )
-          .map(item => {
-            this.getLocation(item.data().userId).then(userCity => {
-              const obj = { ...item.data(), itemId: item.id, userCity };
-              Items.push(obj);
-              this.setState({ Items });
+    this.setState({ Items: [], isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("Items")
+        .get()
+        .then(doc => {
+          const Items = [];
+          doc.docs
+            .filter(
+              Items =>
+                Items.data().Category === this.state.Category.toLowerCase() ||
+                this.state.Category === "All"
+            )
+            .map(item => {
+              this.getLocation(item.data().userId).then(userCity => {
+                const obj = { ...item.data(), itemId: item.id, userCity };
+                Items.push(obj);
+                if (Items.length <= 5)
+                  this.setState({ Items, isLoading: false });
+              });
             });
-          });
-      });
-    this.setState({ Items: [] });
+        });
+    });
   };
 
   getLocation = userId =>
@@ -107,7 +109,10 @@ export default class Home extends Component {
   handleSubmit = e => {
     e.preventDefault();
     auth
-      .signInWithEmailAndPassword(this.state.User+"@gitcloneolx.com", this.state.Password)
+      .signInWithEmailAndPassword(
+        this.state.User + "@gitcloneolx.com",
+        this.state.Password
+      )
       .then(data => {
         data.user.getIdToken(true).then(token => {
           localStorage.setItem("token", token);
@@ -116,7 +121,7 @@ export default class Home extends Component {
         this.props.history.push("/profile/" + data.user.uid);
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         const errorLogin = <p>The password or user is invalid</p>;
         this.setState({
           modalIsOpen: true,
@@ -127,7 +132,7 @@ export default class Home extends Component {
   };
 
   render() {
-    return this.state.Items.length === 0 ? (
+    return this.state.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"

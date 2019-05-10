@@ -26,7 +26,8 @@ export default class Item extends Component {
       },
       modalIsOpen: false,
       modalHeader: "",
-      copied: false
+      copied: false,
+      isLoading: true
     };
     this.modalText = "";
   }
@@ -62,7 +63,8 @@ export default class Item extends Component {
               Description,
               Quantity,
               Category,
-              buyer
+              buyer,
+              isLoading: false
             });
           });
       });
@@ -106,12 +108,17 @@ export default class Item extends Component {
   };
 
   deleteItem = () => {
-    firebase
-      .firestore()
-      .collection("Items")
-      .doc(this.props.match.params.id)
-      .delete()
-      .then(() => this.props.history.push("/home"));
+    this.setState({isLoading: true}, () => {
+      firebase
+        .firestore()
+        .collection("Items")
+        .doc(this.props.match.params.id)
+        .delete()
+        .then(() => {
+          this.setState({isLoading: false})
+          this.props.history.push("/home")
+        });
+    })
   };
 
   editItem = () => {
@@ -141,7 +148,7 @@ export default class Item extends Component {
   };
 
   render() {
-    return !this.state.Name ? (
+    return this.state.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"

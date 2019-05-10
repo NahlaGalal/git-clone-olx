@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import ReactLoading from "react-loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Input from "./Input";
 import firebase, { auth } from "../firebase";
+import Modal from "./modal";
 
 import "../style/signup.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Modal from "./modal";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -18,7 +20,8 @@ export default class Signup extends Component {
       Phone: "",
       City: "",
       unvalid: "valid",
-      modalIsOpen: false
+      modalIsOpen: false,
+      isLoading: false
     };
   }
 
@@ -42,34 +45,38 @@ export default class Signup extends Component {
       this.setState({ unvalid: "pass", modalIsOpen: true });
     else {
       auth
-        .createUserAndRetrieveDataWithEmailAndPassword(
+        .createUserWithEmailAndPassword(
           this.state.User + "@gitcloneolx.com",
           this.state.Password
         )
         .then(data => this.addToFirebase(data.user.uid))
         .catch(err => {
-          console.log(err)
-          this.setState({ unvalid: "user", modalIsOpen: true })
-        }
-          );
+          console.log(err);
+          this.setState({ unvalid: "user", modalIsOpen: true });
+        });
     }
   };
 
   addToFirebase = userId => {
     const { Name, User, Mail, Phone, City } = this.state;
-    firebase.firestore().collection("Users").doc(userId)
-      .set({
-        Name,
-        User,
-        Mail,
-        Phone,
-        City
-      })
-      .then(() => {
-        this.setState({ unvalid: "valid" });
-        this.props.history.push("/");
-      })
-      .catch(error => console.log(error));
+    this.setState({ isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("Users")
+        .doc(userId)
+        .set({
+          Name,
+          User,
+          Mail,
+          Phone,
+          City
+        })
+        .then(() => {
+          this.setState({ unvalid: "valid", isLoading: false });
+          this.props.history.push("/");
+        })
+        .catch(error => console.log(error));
+    });
   };
 
   render() {
@@ -84,7 +91,15 @@ export default class Signup extends Component {
         ""
       );
 
-    return (
+    return this.state.isLoading ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <React.Fragment>
         <form onSubmit={this.handleSubmit} className="signup">
           <h1>Create your account</h1>

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ReactLoading from "react-loading";
+
 import Input from "./Input";
 import firebase from "../firebase";
 
@@ -14,7 +16,8 @@ export default class UpdateItem extends Component {
       Quantity: "",
       Image: "",
       ImageName: "",
-      Description: ""
+      Description: "",
+      isLoading: false
     };
   }
 
@@ -36,25 +39,36 @@ export default class UpdateItem extends Component {
     e.preventDefault();
     const currentState = this.state,
       locationState = this.props.location.state;
-    firebase
-      .firestore()
-      .collection("Items")
-      .doc(this.props.match.params.id)
-      .update({
-        Category: currentState.Category || locationState.Category,
-        Name: currentState.Name || locationState.Name,
-        Price: currentState.Price || locationState.Price,
-        Quantity: currentState.Quantity || locationState.Quantity,
-        Image: currentState.Image || locationState.Image,
-        Description: currentState.Description || locationState.Description
-      })
-      .then(() =>
-        this.props.history.push(`/item/${this.props.match.params.id}`)
-      );
+    this.setState({ isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("Items")
+        .doc(this.props.match.params.id)
+        .update({
+          Category: currentState.Category || locationState.Category,
+          Name: currentState.Name || locationState.Name,
+          Price: currentState.Price || locationState.Price,
+          Quantity: currentState.Quantity || locationState.Quantity,
+          Image: currentState.Image || locationState.Image,
+          Description: currentState.Description || locationState.Description
+        })
+        .then(() => {
+          this.setState({ isLoading: false });
+          this.props.history.push(`/item/${this.props.match.params.id}`);
+        });
+    });
   };
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <ReactLoading
+        type="balls"
+        color="#f6f9fc"
+        height={200}
+        width={200}
+        className="loading"
+      />
+    ) : (
       <form onSubmit={this.handleSubmit} className="add-item">
         <h2>Update your item now </h2>
         <label>

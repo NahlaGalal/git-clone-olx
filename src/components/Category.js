@@ -10,35 +10,38 @@ export default class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [],
+      isLoading: true
     };
   }
 
   handleData = () => {
-    firebase
-      .firestore()
-      .collection("Items")
-      .where("Category", "==", this.props.match.params.name)
-      .get()
-      .then(doc => {
-        let items = [];
-        doc.docs.map(data => {
-          this.getBuyerInformation(data.data().userId).then(City => {
-            const item = {
-              Id: data.id,
-              Name: data.data().Name,
-              Price: data.data().Price,
-              Image: data.data().Image,
-              Description: data.data().Description,
-              buyer: {
-                City
-              }
-            };
-            items.push(item);
-            this.setState({ items });
+    this.setState({ isLoading: true, items: [] }, () => {
+      firebase
+        .firestore()
+        .collection("Items")
+        .where("Category", "==", this.props.match.params.name)
+        .get()
+        .then(doc => {
+          let items = [];
+          doc.docs.map(data => {
+            this.getBuyerInformation(data.data().userId).then(City => {
+              const item = {
+                Id: data.id,
+                Name: data.data().Name,
+                Price: data.data().Price,
+                Image: data.data().Image,
+                Description: data.data().Description,
+                buyer: {
+                  City
+                }
+              };
+              items.push(item);
+              this.setState({ items, isLoading: false });
+            });
           });
         });
-      });
+    });
   };
 
   getBuyerInformation(userId) {
@@ -60,7 +63,7 @@ export default class Category extends Component {
   }
 
   render() {
-    return !this.state.items.length ? (
+    return this.state.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"

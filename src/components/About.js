@@ -7,10 +7,8 @@ export default class About extends Component {
   render() {
     return (
       <main className="about container">
-        <FontAwesomeIcon icon="quote-left"/>
-        <h2 className="header">
-          ABOUT US
-        </h2>
+        <FontAwesomeIcon icon="quote-left" />
+        <h2 className="header">ABOUT US</h2>
         <p>
           Hi, this is just a simple project we created as part of our learning
           path to implement SQL databases, we created a small web app to help
@@ -30,7 +28,7 @@ export default class About extends Component {
             <li>Mustafa Muhammed AlGayar</li>
           </ul>
         </div>
-        <FontAwesomeIcon icon="quote-right" className="quote-right"/>
+        <FontAwesomeIcon icon="quote-right" className="quote-right" />
       </main>
     );
   }

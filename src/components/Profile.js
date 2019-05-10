@@ -14,7 +14,8 @@ export default class Profile extends Component {
       Phone: "",
       Mail: "",
       City: "",
-      Items: []
+      Items: [],
+      isLoading: true
     };
   }
 
@@ -26,7 +27,6 @@ export default class Profile extends Component {
       .doc(this.props.match.params.id)
       .get()
       .then(doc => {
-        console.log(doc.data())
         const { Name, User, Phone, Mail, City } = doc.data();
         this.setState({ Name, User, Phone, Mail, City });
       });
@@ -43,15 +43,15 @@ export default class Profile extends Component {
           const obj = {
             ...item.data(),
             Id: item.id
-          }
+          };
           Items.push(obj);
-          this.setState({ Items });
+          this.setState({ Items, isLoading: false });
         });
       });
   }
 
   render() {
-    return this.state.User === "" ? (
+    return this.state.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"
