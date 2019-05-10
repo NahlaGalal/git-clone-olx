@@ -45,9 +45,10 @@ export default class Profile extends Component {
             Id: item.id
           };
           Items.push(obj);
-          this.setState({ Items, isLoading: false });
+          this.setState({ Items });
           return item;
         });
+        this.setState({ isLoading: false });
       });
   }
 
