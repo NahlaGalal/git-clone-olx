@@ -179,17 +179,6 @@ export default class Item extends Component {
             </p>
             <button onClick={this.openModal}>Buy now</button>
             <hr />
-            <h2>Product Information</h2>
-            <dl>
-              <dt>Brand</dt>
-              <dd>Dell</dd>
-              <dt>RAM Memory</dt>
-              <dd>8 GB</dd>
-              <dt>Processor Speed</dt>
-              <dd>2.5 GHz</dd>
-              <dt>Quantity</dt>
-              <dd>{this.state.Quantity}</dd>
-            </dl>
             <h2> Buyer Information </h2>
             <dl>
               <dt>Name</dt>
