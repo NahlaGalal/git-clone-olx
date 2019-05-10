@@ -33,6 +33,7 @@ export default class Home extends Component {
     firebase
       .firestore()
       .collection("Items")
+      .limit(5)
       .get()
       .then(doc => {
         const Items = [];
