@@ -187,7 +187,7 @@ export default class Home extends Component {
               <form onSubmit={this.handleSubmit}>
                 <h1>Join Us Now</h1>
                 <Input
-                  name="Mail"
+                  name="User"
                   label="Email Address"
                   type="e-mail"
                   text="Enter your e-mail"
