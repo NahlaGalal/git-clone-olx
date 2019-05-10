@@ -46,7 +46,7 @@ export default class Signup extends Component {
     else {
       auth
         .createUserWithEmailAndPassword(
-          this.state.User + "@gitcloneolx.com",
+          this.state.Mail,
           this.state.Password
         )
         .then(data => this.addToFirebase(data.user.uid))
@@ -86,7 +86,7 @@ export default class Signup extends Component {
       ) : this.state.unvalid === "pass" ? (
         <p>Your passwords don't match</p>
       ) : this.state.unvalid === "user" ? (
-        <p>This user name is used before </p>
+        <p>This e-mail  is used before </p>
       ) : (
         ""
       );

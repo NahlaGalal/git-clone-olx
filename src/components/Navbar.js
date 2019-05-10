@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { auth } from "../firebase";
 
 import "../style/navbar.css";
@@ -87,15 +86,6 @@ export default class Navbar extends Component {
               ""
             )}
           </ul>
-          <label>
-            <input
-              type="search"
-              name="Search-item"
-              placeholder="Search"
-              onChange={this.handleChange}
-            />
-            <FontAwesomeIcon icon="search" />
-          </label>
         </div>
       </nav>
     );

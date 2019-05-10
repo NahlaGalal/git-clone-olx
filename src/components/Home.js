@@ -112,7 +112,7 @@ export default class Home extends Component {
     this.setState({isLoading: true}, () => {
       auth
         .signInWithEmailAndPassword(
-          this.state.User + "@gitcloneolx.com",
+          this.state.User,
           this.state.Password
         )
         .then(data => {
@@ -187,12 +187,12 @@ export default class Home extends Component {
               <form onSubmit={this.handleSubmit}>
                 <h1>Join Us Now</h1>
                 <Input
-                  name="User"
-                  label="User Name"
-                  type="text"
-                  text="Enter your user name"
-                  icon="user"
-                  warning="You must type your name"
+                  name="Mail"
+                  label="Email Address"
+                  type="e-mail"
+                  text="Enter your e-mail"
+                  icon="envelope"
+                  warning="You must type your e-mail"
                   changeInput={this.changeInput}
                 />
                 <Input
