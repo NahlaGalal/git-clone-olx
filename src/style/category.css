@@ -40,9 +40,19 @@
 }
 
 .category section .description{
-  max-height: 110px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  max-height: 70px;
   margin-bottom: 60px;
   overflow: hidden;
+  -webkit-line-clamp: 4;
+  text-overflow: ellipsis;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  /* autoprefixer: on */
 }
 
 .category section a{
