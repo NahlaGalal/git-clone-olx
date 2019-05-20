@@ -8,25 +8,22 @@ import Modal from "./modal";
 
 import "../style/signup.css";
 
-export default class Signup extends Component {
+import { connect } from "react-redux";
+import { addUser, checkValidity } from "../actions";
+import { bindActionCreators } from "redux";
+
+class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Name: "",
-      User: "",
-      Mail: "",
-      Password: "",
-      RePassword: "",
-      Phone: "",
-      City: "",
       unvalid: "valid",
       modalIsOpen: false,
       isLoading: false
     };
   }
 
-  changeInput = e => this.setState({ [e.target.name]: e.target.value });
   hideModal = () => this.setState({ modalIsOpen: false });
+  changeInput = e => this.props.addUser(e.target.name, e.target.value);
 
   handleSelectBlur = e => {
     if (e.target.value === "")
@@ -36,19 +33,14 @@ export default class Signup extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let validity = true;
-    Object.keys(this.state).forEach(
-      key => (validity = this.state[key] === "" ? false : validity)
-    );
+    this.props.checkValidity(this.props.User);
+    const validity = this.props.validity;
     if (!validity) this.setState({ unvalid: "missing", modalIsOpen: true });
-    else if (this.state.Password !== this.state.RePassword)
-      this.setState({ unvalid: "pass", modalIsOpen: true });
+    // else if (this.state.Password !== this.state.RePassword)
+      // this.setState({ unvalid: "pass", modalIsOpen: true });
     else {
       auth
-        .createUserWithEmailAndPassword(
-          this.state.Mail,
-          this.state.Password
-        )
+        .createUserWithEmailAndPassword(this.state.Mail, this.state.Password)
         .then(data => this.addToFirebase(data.user.uid))
         .catch(err => {
           console.log(err);
@@ -86,7 +78,7 @@ export default class Signup extends Component {
       ) : this.state.unvalid === "pass" ? (
         <p>Your passwords don't match</p>
       ) : this.state.unvalid === "user" ? (
-        <p>This e-mail  is used before </p>
+        <p>This e-mail is used before </p>
       ) : (
         ""
       );
@@ -207,3 +199,19 @@ export default class Signup extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    User: state.userAdded,
+    validity: state.validity
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addUser, checkValidity }, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signup);

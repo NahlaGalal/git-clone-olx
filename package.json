@@ -21,9 +21,11 @@
     "react-dom": "^16.8.4",
     "react-img-carousel": "^1.4.1",
     "react-loading": "^2.0.3",
+    "react-redux": "^7.0.3",
     "react-responsive-carousel": "^3.1.47",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^2.1.8",
+    "redux": "^4.0.1"
   },
   "browserslist": [
     ">0.2%",
