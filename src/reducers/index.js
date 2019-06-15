@@ -1,12 +1,14 @@
 import {combineReducers} from 'redux';
 import Users from './users';
-import userAdded from './addUser';
 import validity from './validity';
+import addUser from './addUser';
+import isLoading from './isLoading';
 
 const rootReducer = combineReducers({
   Users,
-  userAdded,
-  validity
+  validity,
+  addUser,
+  isLoading
 });
 
 export default rootReducer;

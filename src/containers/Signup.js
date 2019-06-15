@@ -2,28 +2,28 @@ import React, { Component } from "react";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Input from "./Input";
-import firebase, { auth } from "../firebase";
-import Modal from "./modal";
+import Input from "../components/Input";
+import Modal from "../components/modal";
 
 import "../style/signup.css";
 
 import { connect } from "react-redux";
-import { addUser, checkValidity } from "../actions";
+import { addField, checkValidity, addUser } from "../actions";
 import { bindActionCreators } from "redux";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
+    this.validity = { validity: false, error: "Missing" };
     this.state = {
-      unvalid: "valid",
       modalIsOpen: false,
-      isLoading: false
+      modalType: ""
     };
   }
 
+  changeInput = (name, value) => this.props.addField(name, value);
+
   hideModal = () => this.setState({ modalIsOpen: false });
-  changeInput = e => this.props.addUser(e.target.name, e.target.value);
 
   handleSelectBlur = e => {
     if (e.target.value === "")
@@ -31,59 +31,35 @@ class Signup extends Component {
     else e.target.nextElementSibling.style.display = "none";
   };
 
+  componentDidUpdate(prevProps) {
+    if (Object.entries(this.validity).length === 0) {
+      this.validity = this.props.validity;
+      this.setState({ modalIsOpen: !this.validity.validity, modalType: this.validity.error});
+      if (this.validity.validity) this.props.addUser(this.props.User);
+    }
+    if (this.props.addUserReducer === "Success") this.props.history.push("/");
+    else if(this.props.addUserReducer === "Failed" && this.props.addUserReducer !== prevProps.addUserReducer) this.setState({modalIsOpen: true, modalType: "User"})
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.checkValidity(this.props.User);
-    const validity = this.props.validity;
-    if (!validity) this.setState({ unvalid: "missing", modalIsOpen: true });
-    // else if (this.state.Password !== this.state.RePassword)
-      // this.setState({ unvalid: "pass", modalIsOpen: true });
-    else {
-      auth
-        .createUserWithEmailAndPassword(this.state.Mail, this.state.Password)
-        .then(data => this.addToFirebase(data.user.uid))
-        .catch(err => {
-          console.log(err);
-          this.setState({ unvalid: "user", modalIsOpen: true });
-        });
-    }
-  };
-
-  addToFirebase = userId => {
-    const { Name, User, Mail, Phone, City } = this.state;
-    this.setState({ isLoading: true }, () => {
-      firebase
-        .firestore()
-        .collection("Users")
-        .doc(userId)
-        .set({
-          Name,
-          User,
-          Mail,
-          Phone,
-          City
-        })
-        .then(() => {
-          this.setState({ unvalid: "valid", isLoading: false });
-          this.props.history.push("/");
-        })
-        .catch(error => console.log(error));
-    });
+    this.validity = {};
+    this.props.checkValidity(this.props.User, this.rePassword);
   };
 
   render() {
     let modalText =
-      this.state.unvalid === "missing" ? (
+      this.state.modalType === "Missing" ? (
         <p>Missing data</p>
-      ) : this.state.unvalid === "pass" ? (
+      ) : this.state.modalType === "Pass" ? (
         <p>Your passwords don't match</p>
-      ) : this.state.unvalid === "user" ? (
+      ) : this.state.modalType === "User" ? (
         <p>This e-mail is used before </p>
       ) : (
         ""
       );
 
-    return this.state.isLoading ? (
+    return this.props.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"
@@ -146,7 +122,7 @@ class Signup extends Component {
               type="password"
               text="Re-enter your password"
               icon="key"
-              warning="You must re-type your name"
+              warning="You must re-type your password"
               required="true"
               changeInput={this.changeInput}
             />
@@ -171,7 +147,7 @@ class Signup extends Component {
               defaultValue=""
               id="city"
               name="City"
-              onChange={this.changeInput}
+              onChange={e => this.changeInput(e.target.name, e.target.value)}
               onBlur={this.handleSelectBlur}
             >
               <option value="">Choose your city</option>
@@ -200,16 +176,15 @@ class Signup extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    User: state.userAdded,
-    validity: state.validity
-  }
-}
+const mapStateToProps = state => ({
+  User: state.Users,
+  validity: state.validity,
+  addUserReducer: state.addUser,
+  isLoading: state.isLoading
+});
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addUser, checkValidity }, dispatch);
-}
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ addField, checkValidity, addUser }, dispatch);
 
 export default connect(
   mapStateToProps,

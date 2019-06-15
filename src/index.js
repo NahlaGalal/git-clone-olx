@@ -9,14 +9,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import reducers from "./reducers";
+import configureStore from "./configureStore";
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const store = configureStore();
 
 library.add(fas);
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <Router />
   </Provider>,
   document.getElementById("root")
