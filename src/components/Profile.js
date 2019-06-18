@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import firebase from "../firebase";
 
 import "../style/profile.css";
+// check localstorag
+
 
 export default class Profile extends Component {
   constructor(props) {

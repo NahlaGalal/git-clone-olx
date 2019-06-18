@@ -17,3 +17,12 @@ export const addDataToFirebase = (state, uid) => {
       City
     });
 };
+
+export const getUser = (Mail, Password) =>
+  auth.signInWithEmailAndPassword(Mail, Password);
+
+export const getToken = user =>
+  user.getIdToken(true).then(token => localStorage.setItem("token", token));
+
+export const getPassword = mail =>
+  auth.sendPasswordResetEmail(mail);

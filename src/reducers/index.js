@@ -1,14 +1,18 @@
 import {combineReducers} from 'redux';
-import Users from './users';
+import userData from './userData';
 import validity from './validity';
-import addUser from './addUser';
+import joinUser from './joinUser';
 import isLoading from './isLoading';
+import items from './items';
+import forgetPass from './forgetPass'
 
 const rootReducer = combineReducers({
-  Users,
+  userData,
   validity,
-  addUser,
-  isLoading
+  joinUser,
+  isLoading,
+  items,
+  forgetPass
 });
 
 export default rootReducer;
