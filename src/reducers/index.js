@@ -4,7 +4,8 @@ import validity from './validity';
 import joinUser from './joinUser';
 import isLoading from './isLoading';
 import items from './items';
-import forgetPass from './forgetPass'
+import forgetPass from './forgetPass';
+import profileData from './profileData';
 
 const rootReducer = combineReducers({
   userData,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   joinUser,
   isLoading,
   items,
-  forgetPass
+  forgetPass,
+  profileData
 });
 
 export default rootReducer;

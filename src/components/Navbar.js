@@ -18,7 +18,7 @@ export default class Navbar extends Component {
 
   render() {
     const isUser = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("uid");
 
     return (
       <nav className="main-nav">

@@ -6,7 +6,7 @@ import Home from "../containers/Home";
 import Signup from "../containers/Signup";
 import Error from "./Error";
 import AddItem from "./AddItem";
-import Profile from "./Profile";
+import Profile from "../containers/Profile";
 import Category from "./Category";
 import UpdateItem from "./UpdateItem";
 import About from "./About";

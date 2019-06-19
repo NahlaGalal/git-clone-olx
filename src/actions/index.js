@@ -3,9 +3,10 @@ import {
   addEmailAndPassword,
   getUser,
   getToken,
-  getPassword
+  getPassword,
+  getUserData
 } from "../api/User-api";
-import { getItems, getLocation } from "../api/Items-api";
+import { getItems, getLocation, getUserItems } from "../api/Items-api";
 
 export const addField = (field, text) => {
   const fieldType = `ADD_${field.toUpperCase()}`;
@@ -116,5 +117,35 @@ export const login = userData => dispatch => {
 
 export const forgetPassword = mail => dispatch =>
   getPassword(mail)
-    .then(() => dispatch({ type: "FORGET_PASSWORD", validity: "Reset password" }))
-    .catch(() => dispatch({ type: "FORGET_PASSWORD", validity: "Invalid mail" }));
+    .then(() =>
+      dispatch({ type: "FORGET_PASSWORD", validity: "Reset password" })
+    )
+    .catch(() =>
+      dispatch({ type: "FORGET_PASSWORD", validity: "Invalid mail" })
+    );
+
+export const getProfileData = uid => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  getUserData(uid).then(userData => {
+    getUserItems(uid).then(userItems => {
+      const Items = [];
+      userItems.docs.map(Item => {
+        const obj = {
+          ...Item.data(),
+          Id: Item.id
+        };
+        Items.push(obj);
+        return Item;
+      });
+
+      dispatch({
+        type: "GET_PROFILE_DATA",
+        ...userData.data(),
+        Items
+      });
+    });
+  });
+};

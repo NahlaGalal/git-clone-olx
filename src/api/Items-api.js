@@ -12,3 +12,10 @@ export const getLocation = uid =>
     .collection("Users")
     .doc(uid)
     .get();
+
+export const getUserItems = uid =>
+  firebase
+    .firestore()
+    .collection("Items")
+    .where("userId", "==", uid)
+    .get();
