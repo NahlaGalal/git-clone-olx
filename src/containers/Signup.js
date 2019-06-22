@@ -8,13 +8,12 @@ import Modal from "../components/modal";
 import "../style/signup.css";
 
 import { connect } from "react-redux";
-import { addField, signupValidation, addUser } from "../actions";
+import { addField, signupValidation, addUser, resetState } from "../actions";
 import { bindActionCreators } from "redux";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-    this.validity = { validity: false, error: "Missing" };
     this.state = {
       modalIsOpen: false,
       modalType: ""
@@ -32,25 +31,25 @@ class Signup extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (Object.entries(this.validity).length === 0) {
-      this.validity = this.props.validity;
+    if (Object.entries(this.props.validity).length !== 0) {
       this.setState({
-        modalIsOpen: !this.validity.validity,
-        modalType: this.validity.error
+        modalIsOpen: !this.props.validity.validity,
+        modalType: this.props.validity.error
       });
-      if (this.validity.validity) this.props.addUser(this.props.userData);
+      if (this.props.validity.validity) this.props.addUser(this.props.userData);
+      this.props.resetState("RESET_VALIDATION");
     }
-    if (this.props.joinUser !== "Failed" && this.props.joinUser !== "") this.props.history.push("/");
-    else if (
-      this.props.joinUser === "Failed" &&
-      this.props.joinUser !== prevProps.joinUser
-    )
-      this.setState({ modalIsOpen: true, modalType: "User" });
+
+    if(this.props.joinUser !== ""){
+      if (this.props.joinUser !== "Failed")
+        this.props.history.push("/");
+      else this.setState({ modalIsOpen: true, modalType: "User" });
+      this.props.resetState("RESET_SIGNUP");
+    }
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.validity = {};
     this.props.signupValidation(this.props.userData);
   };
 
@@ -191,7 +190,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ addField, signupValidation, addUser }, dispatch);
+  bindActionCreators(
+    { addField, signupValidation, addUser, resetState },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

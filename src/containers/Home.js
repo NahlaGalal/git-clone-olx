@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "../components/modal";
 
 import { connect } from "react-redux";
-import { getItemsByFilter, login, addField, forgetPassword } from "../actions";
+import { getItemsByFilter, login, addField, forgetPassword, resetState } from "../actions";
 import { bindActionCreators } from "redux";
 
 class Home extends Component {
@@ -25,16 +25,19 @@ class Home extends Component {
     this.props.getItemsByFilter("all");
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.joinUser !== prevProps.joinUser) {
-      if (this.props.joinUser !== "Failed" && this.props.joinUser !== "")
+  componentDidUpdate() {
+    if (this.props.joinUser !== "") {
+      if (this.props.joinUser !== "Failed")
         this.props.history.push(`/profile/${this.props.joinUser}`);
-      else if (this.props.joinUser === "Failed")
+      else
         this.setState({ modalIsOpen: true, modalType: "Invalid login" });
+      this.props.resetState("RESET_LOGIN");
     }
 
-    if (this.props.forgetPass !== prevProps.forgetPass)
+    if (this.props.forgetPass !== ""){
       this.setState({ modalIsOpen: true, modalType: this.props.forgetPass });
+      this.props.resetState("RESET_MAIL");
+    }
   }
 
   changeInput = (name, value) => this.props.addField(name, value);
@@ -195,7 +198,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    { getItemsByFilter, login, addField, forgetPassword },
+    { getItemsByFilter, login, addField, forgetPassword, resetState },
     dispatch
   );
 

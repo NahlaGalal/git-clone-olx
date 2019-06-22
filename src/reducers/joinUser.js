@@ -6,6 +6,9 @@ const joinUser = (state = "", action) => {
     case "ADD_USER_FAILED":
     case "LOGIN_FAILED":
       return "Failed";
+    case "RESET_LOGIN":
+    case "RESET_SIGNUP":
+      return "";
     default:
       return state;
   }

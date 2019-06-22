@@ -182,7 +182,7 @@ export const addItem = (state, uid) => dispatch => {
   setItem(...Object.values(state), uid)
     .then(doc =>
       dispatch({
-        type: "ADD_ITEM_SUCESSED",
+        type: "ADD_ITEM_SUCCESSED",
         result: doc.id
       })
     )

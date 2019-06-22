@@ -8,7 +8,9 @@ export default function addInputField (state = {}, action){
         text: action.text
       };
       const s = addField(state, userAction);
-      return {...state, ...s}
+      return {...state, ...s};
+    case "RESET_DATA":
+      return {};
     default:
       return state;
   }

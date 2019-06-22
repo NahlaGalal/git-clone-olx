@@ -1,9 +1,9 @@
 const itemId = (state="", action) => {
   switch (action.type) {
     case "ADD_ITEM_SUCCESSED":
-      return action.id;
+      return action.result;
     case "ADD_ITEM_FAILED":
-      return "Error";
+      return action.result;
     case "RESET_ADD_ITEM":
       return "";
     default:

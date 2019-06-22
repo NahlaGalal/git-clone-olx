@@ -27,6 +27,7 @@ class AddItem extends Component {
   }
 
   componentDidMount() {
+    this.props.resetState("RESET_DATA");
     this.props.getUserName(localStorage.getItem("uid"));
   }
 
@@ -57,20 +58,18 @@ class AddItem extends Component {
     if (Object.entries(this.props.validity).length !== 0) {
       if (!this.props.validity.validity)
         this.setState({ modalIsOpen: true, modalType: "Missing" });
-      else this.setState({ modalType: "Add item assurance" });
+      else this.setState({ modalIsOpen: true, modalType: "Add item assurance" });
       this.props.resetState("RESET_VALIDATION");
     }
 
     if (this.props.itemId !== "") {
-      if (this.props.itemId === "Error")
-        this.setState({ modalIsOpen: true, modalType: "Error" });
-      else this.props.history.push("/item/" + this.state.itemId);
+      if (this.props.itemId === "Error") this.setState({ modalIsOpen: true, modalType: "Error" });
+      else this.props.history.push("/item/" + this.props.itemId);
       this.props.resetState("RESET_ADD_ITEM");
     }
   }
 
-  addItem = () =>
-    this.props.addItem(this.props.Data, localStorage.getItem("uid"));
+  addItem = () => this.props.addItem(this.props.Data, localStorage.getItem("uid"));
 
   hideModal = () => this.setState({ modalIsOpen: false });
 
