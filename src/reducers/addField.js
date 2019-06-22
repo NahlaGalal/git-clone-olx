@@ -24,7 +24,7 @@ export default function addUser(state = {}, action) {
       return {
         ...state,
         RePassword: action.text
-      }
+      };
     case "ADD_PHONE":
       return {
         ...state,
@@ -34,6 +34,41 @@ export default function addUser(state = {}, action) {
       return {
         ...state,
         City: action.text
+      };
+    case "ADD_CATEGORY":
+      return {
+        ...state,
+        Category: action.text
+      };
+    case "ADD_ITEMNAME":
+      return {
+        ...state,
+        ItemName: action.text
+      };
+    case "ADD_PRICE":
+      return {
+        ...state,
+        Price: action.text
+      };
+    case "ADD_QUANTITY":
+      return {
+        ...state,
+        Quantity: action.text
+      };
+    case "ADD_IMAGE":
+      return {
+        ...state,
+        Image: action.text
+      };
+    case "ADD_IMAGENAME":
+      return {
+        ...state,
+        ImageName: action.text
+      };
+    case "ADD_DESCRIPTION":
+      return {
+        ...state,
+        Description: action.text
       };
     default:
       return state;

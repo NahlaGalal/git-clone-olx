@@ -188,7 +188,7 @@ class Home extends Component {
 const mapStateToProps = state => ({
   items: state.items,
   isLoading: state.isLoading,
-  userData: state.userData,
+  userData: state.inputData,
   joinUser: state.joinUser,
   forgetPass: state.forgetPass
 });

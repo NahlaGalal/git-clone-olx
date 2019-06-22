@@ -2,53 +2,42 @@ import React, { Component } from "react";
 import ReactLoading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Input from "./Input";
-import firebase from "../firebase";
-import Modal from "./modal";
+import Input from "../components/Input";
+import Modal from "../components/modal";
 
 import "../style/additem.css";
 
-export default class AddItem extends Component {
+import { connect } from "react-redux";
+import {
+  getUserName,
+  addField,
+  addItemValidation,
+  addItem,
+  resetState
+} from "../actions";
+import { bindActionCreators } from "redux";
+
+class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      User: "",
-      Category: "",
-      Name: "",
-      Price: "",
-      Quantity: "",
-      Image: "",
-      ImageName: "",
-      Description: "",
-      unvalid: "valid",
       modalIsOpen: false,
-      isLoading: true,
-      itemId: "0"
+      modalType: ""
     };
   }
 
   componentDidMount() {
-    firebase
-      .firestore()
-      .collection("Users")
-      .doc(this.props.match.params.id)
-      .get()
-      .then(doc => {
-        if (doc.data())
-          this.setState({ User: doc.data().Name, isLoading: false });
-      });
+    this.props.getUserName(localStorage.getItem("uid"));
   }
 
-  changeInput = e => this.setState({ [e.target.name]: e.target.value });
+  changeInput = (name, value) => this.props.addField(name, value);
 
   uploadImg = e => {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        Image: reader.result,
-        ImageName: file.name
-      });
+      this.props.addField("Image", reader.result);
+      this.props.addField("ImageName", file.name);
     };
     if (file) reader.readAsDataURL(file);
   };
@@ -61,54 +50,52 @@ export default class AddItem extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let validity = true;
-    Object.keys(this.state).forEach(key => {
-      if (this.state[key] === "" && key !== "unvalid" && key !== "modalIsOpen")
-        validity = false;
-    });
-    console.log(validity);
-    if (!validity) this.setState({ unvalid: "missing" });
-    else this.addToFirebase();
+    this.props.addItemValidation(this.props.Data);
   };
 
-  addToFirebase = () => {
-    const { Category, Name, Price, Quantity, Image, Description } = this.state;
-    // Add to items
-    this.setState({ isLoading: true }, () => {
-      firebase
-        .firestore()
-        .collection("Items")
-        .add({
-          Category,
-          Name,
-          Price,
-          Quantity,
-          Image,
-          Description,
-          userId: this.props.match.params.id
-        })
-        .then(docref => {
-          this.setState({
-            unvalid: "valid",
-            modalIsOpen: true,
-            isLoading: false,
-            itemId: docref.id
-          });
-          console.log(docref.id);
-        })
-        .catch(error => console.log(error));
-    });
-  };
+  componentDidUpdate() {
+    if (Object.entries(this.props.validity).length !== 0) {
+      if (!this.props.validity.validity)
+        this.setState({ modalIsOpen: true, modalType: "Missing" });
+      else this.setState({ modalType: "Add item assurance" });
+      this.props.resetState("RESET_VALIDATION");
+    }
+
+    if (this.props.itemId !== "") {
+      if (this.props.itemId === "Error")
+        this.setState({ modalIsOpen: true, modalType: "Error" });
+      else this.props.history.push("/item/" + this.state.itemId);
+      this.props.resetState("RESET_ADD_ITEM");
+    }
+  }
+
+  addItem = () =>
+    this.props.addItem(this.props.Data, localStorage.getItem("uid"));
 
   hideModal = () => this.setState({ modalIsOpen: false });
-  addItem = () => this.props.history.push("/item/" + this.state.itemId);
 
   render() {
-    let modalText = <p>Are you sure you want to add this item?</p>;
+    let modalText,
+      modalHeader = "Warning";
     let signupText = <p>You must sign up first before adding an item</p>;
 
+    switch (this.state.modalType) {
+      case "Missing":
+        modalText = <p> Missing data </p>;
+        break;
+      case "Add item assurance":
+        modalText = <p>Are you sure you want to add this item?</p>;
+        modalHeader = "Assurance";
+        break;
+      case "Error":
+        modalText = <p>Error in adding data </p>;
+        break;
+      default:
+        modalText = "";
+    }
+
     return localStorage.getItem("token") ? (
-      this.state.isLoading ? (
+      this.props.isLoading ? (
         <ReactLoading
           type="balls"
           color="#f6f9fc"
@@ -119,14 +106,14 @@ export default class AddItem extends Component {
       ) : (
         <React.Fragment>
           <form onSubmit={this.handleSubmit} className="add-item">
-            <h1>Hello, {this.state.User}</h1>
+            <h1>Hello, {this.props.Name}</h1>
             <h2>Add your item now </h2>
             <label>
               <select
                 defaultValue=""
                 name="Category"
                 onBlur={this.handleSelectBlur}
-                onChange={this.changeInput}
+                onChange={e => this.changeInput(e.target.name, e.target.value)}
               >
                 <option value="">Category</option>
                 <option value="books">Books</option>
@@ -140,7 +127,7 @@ export default class AddItem extends Component {
               </p>
             </label>
             <Input
-              name="Name"
+              name="itemName"
               type="text"
               text="Name of item"
               warning="You must type name of item"
@@ -170,13 +157,13 @@ export default class AddItem extends Component {
                 style={{ display: "none" }}
                 onBlur={this.handleSelectBlur}
               />
-              <span>{this.state.ImageName || "Upload an image"}</span>
+              <span>{this.props.Data.ImageName || "Upload an image"}</span>
             </label>
             <textarea
               placeholder="Description"
               name="Description"
               onBlur={this.handleSelectBlur}
-              onChange={this.changeInput}
+              onChange={e => this.changeInput(e.target.name, e.target.value)}
             />
             <p className="warning-sentence">
               <FontAwesomeIcon icon={"exclamation-triangle"} /> You must type
@@ -188,7 +175,7 @@ export default class AddItem extends Component {
             isOpen={this.state.modalIsOpen}
             hideModal={this.hideModal}
             OkButton={this.addItem}
-            header="Assurance"
+            header={modalHeader}
             text={modalText}
           />
         </React.Fragment>
@@ -203,3 +190,22 @@ export default class AddItem extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  Name: state.profileData.Name,
+  Data: state.inputData,
+  validity: state.validity,
+  itemId: state.itemId,
+  isLoading: state.isLoading
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    { getUserName, addField, addItemValidation, addItem, resetState },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddItem);

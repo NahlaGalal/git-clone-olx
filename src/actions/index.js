@@ -6,7 +6,7 @@ import {
   getPassword,
   getUserData
 } from "../api/User-api";
-import { getItems, getLocation, getUserItems } from "../api/Items-api";
+import { getItems, getLocation, getUserItems, setItem } from "../api/Items-api";
 
 export const addField = (field, text) => {
   const fieldType = `ADD_${field.toUpperCase()}`;
@@ -74,7 +74,8 @@ export const getItemsByFilter = filter => dispatch => {
     doc.docs
       .filter(Items => Items.data().Category === filter || filter === "all")
       .map(item => {
-        getLocation(item.data().userId).then(user => {
+        // item.data().userId;
+        getLocation(localStorage.getItem("uid")).then(user => {
           const obj = {
             ...item.data(),
             itemId: item.id,
@@ -149,3 +150,50 @@ export const getProfileData = uid => dispatch => {
     });
   });
 };
+
+export const getUserName = uid => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  getUserData(uid).then(userData =>
+    dispatch({
+      type: "GET_USER_NAME",
+      Name: userData.data().Name
+    })
+  );
+};
+
+export const addItemValidation = state => {
+  let validity = false;
+  const filteration = Object.keys(state).filter(key => state[key]);
+  if (filteration.length === 7) validity = true;
+  return {
+    type: "VALID_ITEM_ADDED",
+    validity
+  };
+};
+
+export const addItem = (state, uid) => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  setItem(...Object.values(state), uid)
+    .then(doc =>
+      dispatch({
+        type: "ADD_ITEM_SUCESSED",
+        result: doc.id
+      })
+    )
+    .catch(() =>
+      dispatch({
+        type: "ADD_ITEM_FAILED",
+        result: "Error"
+      })
+    );
+};
+
+export const resetState = reset => ({
+  type: reset
+});

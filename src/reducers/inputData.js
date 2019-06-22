@@ -1,6 +1,6 @@
 import addField from './addField';
 
-export default function addUserField (state = {}, action){
+export default function addInputField (state = {}, action){
   switch (action.type){
     case "ADD_FIELD":
       const userAction = {

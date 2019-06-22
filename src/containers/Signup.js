@@ -184,7 +184,7 @@ class Signup extends Component {
 }
 
 const mapStateToProps = state => ({
-  userData: state.userData,
+  userData: state.inputData,
   validity: state.validity,
   joinUser: state.joinUser,
   isLoading: state.isLoading

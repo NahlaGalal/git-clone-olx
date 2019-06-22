@@ -19,3 +19,18 @@ export const getUserItems = uid =>
     .collection("Items")
     .where("userId", "==", uid)
     .get();
+
+export const setItem = (Category, Name, Price, Quantity, Image, ImageName, Description, uid) =>
+  firebase
+    .firestore()
+    .collection("Items")
+    .add({
+      Category,
+      ImageName,
+      Name,
+      Price,
+      Quantity,
+      Image,
+      Description,
+      uid
+    });
