@@ -20,17 +20,40 @@ export const getUserItems = uid =>
     .where("userId", "==", uid)
     .get();
 
-export const setItem = (Category, Name, Price, Quantity, Image, ImageName, Description, uid) =>
+export const setItem = (
+  Category,
+  Name,
+  Price,
+  Quantity,
+  Image,
+  ImageName,
+  Description,
+  uid
+) =>
   firebase
     .firestore()
     .collection("Items")
     .add({
       Category,
-      ImageName,
+      Image,
       Name,
       Price,
       Quantity,
-      Image,
+      ImageName,
       Description,
       uid
     });
+
+export const getItem = id =>
+  firebase
+    .firestore()
+    .collection("Items")
+    .doc(id)
+    .get();
+
+export const deleteItem = id =>
+  firebase
+    .firestore()
+    .collection("Items")
+    .doc(id)
+    .delete();

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./Layout";
-import Item from "./Item";
+import Item from "../containers/Item";
 import Home from "../containers/Home";
 import Signup from "../containers/Signup";
 import Error from "./Error";

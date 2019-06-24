@@ -6,7 +6,14 @@ import {
   getPassword,
   getUserData
 } from "../api/User-api";
-import { getItems, getLocation, getUserItems, setItem } from "../api/Items-api";
+import {
+  getItems,
+  getLocation,
+  getUserItems,
+  setItem,
+  getItem,
+  deleteItem
+} from "../api/Items-api";
 
 export const addField = (field, text) => {
   const fieldType = `ADD_${field.toUpperCase()}`;
@@ -197,3 +204,44 @@ export const addItem = (state, uid) => dispatch => {
 export const resetState = reset => ({
   type: reset
 });
+
+export const getItemData = id => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  getItem(id).then(item => {
+    getUserData(item.data().uid)
+      .then(user =>
+        dispatch({
+          type: "GET_ITEM_SUCCESSED",
+          item: item.data(),
+          user: user.data()
+        })
+      )
+      .catch(() =>
+        dispatch({
+          type: "GET_ITEM_FAILED",
+          error: "Can't get this item"
+        })
+      );
+  });
+};
+
+export const deleteItemSelected = id => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  deleteItem(id)
+    .then(() =>
+      dispatch({
+        type: "DELETE_ITEM_SUCCESSED"
+      })
+    )
+    .catch(() =>
+      dispatch({
+        type: "DELETE_ITEM_FAILED"
+      })
+    );
+};
