@@ -5,7 +5,6 @@ import ReactLoading from "react-loading";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../style/item.css";
 import Modal from "../components/modal";
-import firebase from "../firebase";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
