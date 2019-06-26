@@ -28,7 +28,7 @@ class AddItem extends Component {
 
   componentDidMount() {
     this.props.resetState("RESET_DATA");
-    this.props.getUserName(localStorage.getItem("uid"));
+    if(localStorage.getItem("token")) this.props.getUserName(localStorage.getItem("uid"));
   }
 
   changeInput = (name, value) => this.props.addField(name, value);
