@@ -32,3 +32,5 @@ export const getUserData = uid =>
     .collection("Users")
     .doc(uid)
     .get();
+
+export const logOut = () => auth.signOut();

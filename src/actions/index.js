@@ -4,7 +4,8 @@ import {
   getUser,
   getToken,
   getPassword,
-  getUserData
+  getUserData,
+  logOut
 } from "../api/User-api";
 import {
   getItems,
@@ -82,8 +83,7 @@ export const getItemsByFilter = filter => dispatch => {
     doc.docs
       .filter(Items => Items.data().Category === filter || filter === "all")
       .map(item => {
-        // item.data().userId;
-        getLocation(localStorage.getItem("uid")).then(user => {
+        getLocation(item.data().uid).then(user => {
           const obj = {
             ...item.data(),
             itemId: item.id,
@@ -266,3 +266,9 @@ export const updataItemData = (newState, id) => dispatch => {
       })
     );
 };
+
+export const logOutUser = () =>
+  logOut().then(() => {
+    localStorage.removeItem("uid");
+    localStorage.removeItem("token");
+  });

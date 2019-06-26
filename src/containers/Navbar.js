@@ -1,24 +1,24 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { auth } from "../firebase";
 
 import "../style/navbar.css";
 
-export default class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { search: "" };
-  }
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { logOutUser } from "../actions";
 
+class Navbar extends Component {
   handleClick = e => e.target.nextElementSibling.classList.toggle("hidden");
-  handleChange = e => this.setState({ search: e.target.value });
   displayNav = e =>
     e.currentTarget.parentElement.nextElementSibling.classList.toggle("hidden");
-  logOut = () => auth.signOut().then(() => localStorage.removeItem("token"));
+
+  logOut = () => {
+    this.props.logOutUser();
+    this.props.history.push("/home");
+  };
 
   render() {
-    const isUser = localStorage.getItem("token");
-    const userId = localStorage.getItem("uid");
+    const isUser = this.props.userId ? localStorage.getItem("token") : undefined;
 
     return (
       <nav className="main-nav">
@@ -61,7 +61,7 @@ export default class Navbar extends Component {
               </div>
             </li>
             <li>
-              <NavLink to={`/addItem/${isUser ? userId : "error"}`}>
+              <NavLink to={`/addItem/${isUser ? this.props.userId : "error"}`}>
                 Add Item
               </NavLink>
             </li>
@@ -69,21 +69,19 @@ export default class Navbar extends Component {
               {!isUser ? (
                 <NavLink to="/signup"> Sign up </NavLink>
               ) : (
-                <NavLink to={`/profile/${userId}`}>Profile</NavLink>
+                <NavLink to={`/profile/${this.props.userId}`}>Profile</NavLink>
               )}{" "}
             </li>
             <li>
               <NavLink to="/about"> About </NavLink>
             </li>
-            {isUser ? (
+            {isUser && (
               <li>
                 <NavLink to="/logout" onClick={this.logOut}>
                   {" "}
                   Log out{" "}
                 </NavLink>
               </li>
-            ) : (
-              ""
             )}
           </ul>
         </div>
@@ -91,3 +89,15 @@ export default class Navbar extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userId: state.joinUser !== "" ? state.joinUser : localStorage.getItem("uid")
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ logOutUser }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);

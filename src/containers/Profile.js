@@ -8,10 +8,8 @@ import { connect } from "react-redux";
 import { getProfileData } from "../actions";
 import { bindActionCreators } from "redux";
 
-
 class Profile extends Component {
   componentWillMount() {
-    if(!localStorage.getItem("token")) this.props.history.push("/");
     this.props.getProfileData(localStorage.getItem("uid"));
   }
 
@@ -62,12 +60,15 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => ({ 
+const mapStateToProps = state => ({
   data: state.profileData,
   isLoading: state.isLoading
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({getProfileData}, dispatch);
+  bindActionCreators({ getProfileData }, dispatch);
 
-export default connect (mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
