@@ -1,66 +1,52 @@
 import React, { Component } from "react";
 import ReactLoading from "react-loading";
 
-import Input from "./Input";
-import firebase from "../firebase";
+import Input from "../components/Input";
 
 import "../style/additem.css";
 
-export default class UpdateItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Category: "",
-      Name: "",
-      Price: "",
-      Quantity: "",
-      Image: "",
-      ImageName: "",
-      Description: "",
-      isLoading: false
-    };
-  }
+import { addField, updataItemData, resetState } from "../actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-  changeInput = e => this.setState({ [e.target.name]: e.target.value });
+class UpdateItem extends Component {
+  changeInput = (name, value) => this.props.addField(name, value);
 
   uploadImg = e => {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        Image: reader.result,
-        ImageName: file.name
-      });
+      this.props.addField("Image", reader.result);
+      this.props.addField("ImageName", file.name);
     };
     if (file) reader.readAsDataURL(file);
   };
 
+  componentDidMount() {
+    this.props.addField("Category", this.props.item.Category);
+    this.props.addField("Description", this.props.item.Description);
+    this.props.addField("Image", this.props.item.Image);
+    this.props.addField("Name", this.props.item.Name);
+    this.props.addField("Price", this.props.item.Price);
+    this.props.addField("Quantity", this.props.item.Quantity);
+    this.props.addField("ImageName", this.props.item.ImageName);
+  }
+
+  componentDidUpdate() {
+    if (this.props.itemId !== "" && this.props.itemId !== "Error") {
+      const itemId = this.props.itemId;
+      this.props.resetState("RESET_UPDATE_ITEM");
+      this.props.history.push(`/item/${itemId}`);
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    const currentState = this.state,
-      locationState = this.props.location.state;
-    this.setState({ isLoading: true }, () => {
-      firebase
-        .firestore()
-        .collection("Items")
-        .doc(this.props.match.params.id)
-        .update({
-          Category: currentState.Category || locationState.Category,
-          Name: currentState.Name || locationState.Name,
-          Price: currentState.Price || locationState.Price,
-          Quantity: currentState.Quantity || locationState.Quantity,
-          Image: currentState.Image || locationState.Image,
-          Description: currentState.Description || locationState.Description
-        })
-        .then(() => {
-          this.setState({ isLoading: false });
-          this.props.history.push(`/item/${this.props.match.params.id}`);
-        });
-    });
+    this.props.updataItemData(this.props.data, this.props.match.params.id);
   };
 
   render() {
-    return this.state.isLoading ? (
+    return this.props.isLoading ? (
       <ReactLoading
         type="balls"
         color="#f6f9fc"
@@ -73,7 +59,7 @@ export default class UpdateItem extends Component {
         <h2>Update your item now </h2>
         <label>
           <select
-            defaultValue={this.props.location.state.Category}
+            defaultValue={this.props.item.Category}
             name="Category"
             onChange={this.changeInput}
           >
@@ -88,21 +74,21 @@ export default class UpdateItem extends Component {
           name="Name"
           type="text"
           text="Name of item"
-          defaultValue={this.props.location.state.Name}
+          defaultValue={this.props.item.Name}
           changeInput={this.changeInput}
         />
         <Input
           name="Price"
           type="number"
           text="Price of item"
-          defaultValue={this.props.location.state.Price}
+          defaultValue={this.props.item.Price}
           changeInput={this.changeInput}
         />
         <Input
           name="Quantity"
           type="number"
           text="Quantity of item"
-          defaultValue={this.props.location.state.Quantity}
+          defaultValue={this.props.item.Quantity}
           changeInput={this.changeInput}
         />
         <label className="upload-img">
@@ -114,17 +100,32 @@ export default class UpdateItem extends Component {
             style={{ display: "none" }}
             onBlur={this.handleSelectBlur}
           />
-          <span>{this.state.ImageName || "Upload an image"}</span>
+          <span>{this.props.data.ImageName}</span>
         </label>
         <textarea
           placeholder="Description"
           name="Description"
           onBlur={this.handleSelectBlur}
-          onChange={this.changeInput}
-          defaultValue={this.props.location.state.Description}
+          onChange={e => this.changeInput(e.target.name, e.target.value)}
+          defaultValue={this.props.item.Description}
         />
         <input type="submit" value="Update item" />
       </form>
     );
   }
 }
+
+const mpaStateToProps = state => ({
+  item: state.itemData.item,
+  isLoading: state.isLoading,
+  data: state.inputData,
+  itemId: state.itemId
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ addField, updataItemData, resetState }, dispatch);
+
+export default connect(
+  mpaStateToProps,
+  mapDispatchToProps
+)(UpdateItem);

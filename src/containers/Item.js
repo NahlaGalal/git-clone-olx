@@ -130,7 +130,7 @@ class Item extends Component {
               <dt>Name</dt>
               <dd
                 onClick={() =>
-                  this.props.history.push(`/profile/${this.state.buyer.Id}`)
+                  this.props.history.push(`/profile/${this.props.item.uid}`)
                 }
                 className="profile"
               >

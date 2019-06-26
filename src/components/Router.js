@@ -8,7 +8,7 @@ import Error from "./Error";
 import AddItem from "../containers/AddItem";
 import Profile from "../containers/Profile";
 import Category from "../containers/Category";
-import UpdateItem from "./UpdateItem";
+import UpdateItem from "../containers/UpdateItem";
 import About from "./About";
 
 export default class Router extends Component {

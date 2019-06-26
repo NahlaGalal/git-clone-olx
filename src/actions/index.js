@@ -12,7 +12,8 @@ import {
   getUserItems,
   setItem,
   getItem,
-  deleteItem
+  deleteItem,
+  updateItem
 } from "../api/Items-api";
 
 export const addField = (field, text) => {
@@ -242,6 +243,26 @@ export const deleteItemSelected = id => dispatch => {
     .catch(() =>
       dispatch({
         type: "DELETE_ITEM_FAILED"
+      })
+    );
+};
+
+export const updataItemData = (newState, id) => dispatch => {
+  dispatch({
+    type: "IS_LOADING"
+  });
+
+  updateItem(newState, id)
+    .then(() =>
+      dispatch({
+        type: "UPDATE_ITEM_SUCCESSED",
+        result: id
+      })
+    )
+    .catch(() =>
+      dispatch({
+        type: "UPDATE_ITEM_FAILED",
+        result: "Error"
       })
     );
 };

@@ -17,7 +17,7 @@ export const getUserItems = uid =>
   firebase
     .firestore()
     .collection("Items")
-    .where("userId", "==", uid)
+    .where("uid", "==", uid)
     .get();
 
 export const setItem = (
@@ -57,3 +57,17 @@ export const deleteItem = id =>
     .collection("Items")
     .doc(id)
     .delete();
+
+export const updateItem = (newState, id) =>
+  firebase
+    .firestore()
+    .collection("Items")
+    .doc(id)
+    .update({
+      Category: newState.Category,
+      Name: newState.Name,
+      Price: newState.Price,
+      Quantity: newState.Quantity,
+      Image: newState.Image,
+      Description: newState.Description
+    });

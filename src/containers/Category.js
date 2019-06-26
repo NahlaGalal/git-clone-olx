@@ -38,7 +38,7 @@ class Category extends Component {
               <h2>{item.Name}</h2>
               <p className="price">{item.Price} LE.</p>
               <p className="description">{item.Description}</p>
-              <Link to={`/item/${item.Id}`}>Read more...</Link>
+              <Link to={`/item/${item.itemId}`}>Read more...</Link>
               <p className="city">
                 <FontAwesomeIcon icon="location-arrow" />
                 {item.userCity}
